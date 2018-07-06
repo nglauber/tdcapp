@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TDC App</string>
+    <string name="title_activity_list">Trilhas</string>
+    <string name="title_sessions_list">Palestras</string>
+    <string name="title_session_details">Detalhas da palestra</string>
+
+    <string name="error_loading_events">Error loading events</string>
+    <string name="error_loading_activities">Error loading modalities</string>
+    <string name="error_loading_sessions">Error loading sessions</string>
+    <string name="session_speakers_title">Speakers</string>
+    <string name="error_loading_speakers">Error loading speakers</string>
+</resources>
