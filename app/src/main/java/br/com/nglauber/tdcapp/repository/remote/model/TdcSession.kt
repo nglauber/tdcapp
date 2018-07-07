@@ -1,10 +1,7 @@
 package br.com.nglauber.tdcapp.repository.remote.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class TdcSession(
         val id: Int,
         val slot: Int,
@@ -20,4 +17,4 @@ data class TdcSession(
         val type: Int,
         @SerializedName("horario")
         val time: String
-) : Parcelable
+)

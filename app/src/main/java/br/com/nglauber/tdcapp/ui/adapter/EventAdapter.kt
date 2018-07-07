@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import br.com.nglauber.tdcapp.repository.remote.model.TdcEvent
+import br.com.nglauber.tdcapp.repository.model.Event
 
-class EventAdapter(context: Context, events: List<TdcEvent>)
-    : ArrayAdapter<TdcEvent>(context, android.R.layout.simple_list_item_1, events) {
+class EventAdapter(context: Context, events: List<Event>)
+    : ArrayAdapter<Event>(context, android.R.layout.simple_list_item_1, events) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val textView = super.getView(position, convertView, parent) as TextView

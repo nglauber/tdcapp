@@ -6,24 +6,24 @@ data class TdcModality(
         val id: Int,
         @SerializedName("descricao")
         val description: String,
-        val urlSite: String,
+        val urlSite: String?,
         @SerializedName("ativo")
-        val active: Boolean,
+        val active: Boolean?,
         @SerializedName("posicaoNoEvento")
         val positionOnEvent: Int,
-        val slogan: String,
+        val slogan: String?,
         @SerializedName("descricaoDetalhada")
-        val detailedDescription: String,
+        val detailedDescription: String?,
         @SerializedName("publicoAlvo")
-        val targetAudience: String,
+        val targetAudience: String?,
         @SerializedName("topicos")
-        val topics: String,
+        val topics: String?,
         @SerializedName("prerequisitos")
-        val prerequisites: String,
-        @SerializedName("waning")
-        val waning: String,
+        val prerequisites: String?,
+        @SerializedName("warning")
+        val warning: String?,
         @SerializedName("publicarNoSite")
-        val publishOnSite: Boolean,
+        val publishOnSite: Boolean?,
         @SerializedName("data")
         val date: String
 )

@@ -1,6 +1,5 @@
 package br.com.nglauber.tdcapp.repository.remote.service
 
-import android.content.Context
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,8 +9,8 @@ import java.util.concurrent.TimeUnit
 
 class TdcWebServiceFactory {
 
-    fun makeTdWebService(context: Context, isDebug: Boolean): TdcWebService {
-        val okHttpClient = makeOkHttpClient(context, makeLoggingInterceptor(isDebug))
+    fun makeTdcWebService(tdcAuth: TdcAuthStore, isDebug: Boolean): TdcWebService {
+        val okHttpClient = makeOkHttpClient(tdcAuth, makeLoggingInterceptor(isDebug))
         return makeAlbumWebService(okHttpClient)
     }
 
@@ -25,11 +24,12 @@ class TdcWebServiceFactory {
         return retrofit.create(TdcWebService::class.java)
     }
 
-    private fun makeOkHttpClient(context: Context, httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    private fun makeOkHttpClient(tdcAuth: TdcAuthStore,
+                                 httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor(TdcAuthInterceptor(context))
-                .authenticator(TdcTokenAuthenticator(TdcAuth(context)))
+                .addInterceptor(TdcAuthInterceptor(tdcAuth))
+                .authenticator(TdcTokenAuthenticator(tdcAuth))
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build()

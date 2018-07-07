@@ -3,7 +3,7 @@ package br.com.nglauber.tdcapp.repository.remote.service
 import android.content.Context
 import android.preference.PreferenceManager
 
-class TdcAuth(ctx: Context) {
+class TdcAuthStore(ctx: Context) {
     private val context = ctx.applicationContext
 
     fun saveAccessToken(accessToken: String) {

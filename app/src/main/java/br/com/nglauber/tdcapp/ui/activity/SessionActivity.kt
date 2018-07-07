@@ -3,65 +3,87 @@ package br.com.nglauber.tdcapp.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
-import br.com.nglauber.tdcapp.repository.remote.model.TdcSession
-import br.com.nglauber.tdcapp.repository.remote.model.TdcSpeaker
-import br.com.nglauber.tdcapp.repository.remote.service.TdcWebServiceFactory
+import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
+import br.com.nglauber.tdcapp.presentation.SessionViewModel
+import br.com.nglauber.tdcapp.presentation.ViewState
+import br.com.nglauber.tdcapp.repository.model.Session
+import br.com.nglauber.tdcapp.repository.model.Speaker
 import com.bumptech.glide.Glide
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_session_content.*
 import kotlinx.android.synthetic.main.item_speaker.view.*
-import com.bumptech.glide.request.RequestOptions
-
 
 
 class SessionActivity : AppCompatActivity() {
 
-    var disposable: Disposable? = null
+    //TODO inject
+    private val viewModel: SessionViewModel by lazy {
+        val factory = AppViewModelFactory(this.application)
+        ViewModelProviders.of(this, factory).get(SessionViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session)
 
-        val session = intent.getParcelableExtra<TdcSession>(EXTRA_SESSION)
+        val session = intent.getParcelableExtra<Session>(EXTRA_SESSION)
         val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
         val modalityId = intent.getIntExtra(EXTRA_MODALITY_ID, -1)
         if (eventId == -1 || modalityId == -1 || session == null) {
             finish()
             return
         }
+        fetchSpeakers(eventId, modalityId, session)
+    }
+
+    private fun fetchSpeakers(eventId: Int, modalityId: Int, session: Session) {
+        viewModel.getState().observe(this, Observer { newState ->
+            newState?.let {
+                handleState(it)
+            }
+        })
+        if (viewModel.getState().value == null) {
+            viewModel.fetchSpeakersBySession(eventId, modalityId, session)
+        }
+    }
+
+    private fun handleState(state: ViewState<Pair<Session, List<Speaker>>>) {
+        when (state.status) {
+            ViewState.Status.LOADING -> {
+                progressBar.visibility = View.VISIBLE
+            }
+            ViewState.Status.SUCCESS -> {
+                state.data?.let {
+                    val (session, speakers) = it
+                    handleSuccess(session, speakers)
+                }
+            }
+            ViewState.Status.ERROR -> {
+                state.error?.let {
+                    handleError(it)
+                }
+            }
+        }
+    }
+
+    private fun handleSuccess(session: Session, speakerList: List<Speaker>?) {
+        progressBar.visibility = View.GONE
+        txtSpeakersTitle.visibility = View.VISIBLE
 
         txtTitle.text = session.title
         txtTime.text = session.time
         txtDescription.text = fromHtml(session.description)
 
-        fetchSpeakers(eventId, modalityId, session.id)
-    }
-
-    private fun fetchSpeakers(eventId: Int, activityId: Int, sessionId: Int) {
-        val service = TdcWebServiceFactory().makeTdWebService(this, true)
-        disposable = service.getSpeakersBySession(eventId, activityId, sessionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { speakerList ->
-                            handleSuccess(speakerList)
-                        },
-                        { e ->
-                            handleError(e)
-                        }
-                )
-    }
-
-    private fun handleSuccess(speakerList: List<TdcSpeaker>?) {
         speakerList?.forEach {
             val view = LayoutInflater.from(this)
                     .inflate(R.layout.item_speaker, containerSpeakers, false)
@@ -89,11 +111,12 @@ class SessionActivity : AppCompatActivity() {
 
     private fun handleError(e: Throwable) {
         e.printStackTrace()
+        progressBar.visibility = View.GONE
         Toast.makeText(this, R.string.error_loading_speakers, Toast.LENGTH_SHORT).show()
 
     }
 
-    private fun fromHtml(string: String): Spanned{
+    private fun fromHtml(string: String): Spanned {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(string, 0)
         } else {
@@ -101,20 +124,15 @@ class SessionActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable?.dispose()
-    }
-
     companion object {
         private const val EXTRA_SESSION = "session"
         private const val EXTRA_MODALITY_ID = "modalityId"
         private const val EXTRA_EVENT_ID = "eventId"
 
-        fun startActivity(context: Context, session: TdcSession, activityId: Int, eventId: Int) {
+        fun startActivity(context: Context, eventId: Int, modalityId: Int, session: Session) {
             context.startActivity(Intent(context, SessionActivity::class.java).apply {
                 putExtra(EXTRA_EVENT_ID, eventId)
-                putExtra(EXTRA_MODALITY_ID, activityId)
+                putExtra(EXTRA_MODALITY_ID, modalityId)
                 putExtra(EXTRA_SESSION, session)
             })
         }

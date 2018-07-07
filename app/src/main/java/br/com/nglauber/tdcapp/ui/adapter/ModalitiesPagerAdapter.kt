@@ -9,22 +9,19 @@ import br.com.nglauber.tdcapp.ui.fragment.ModalityListFragment
 class ModalitiesPagerAdapter(
         fm: FragmentManager,
         private val eventId: Int,
-        private val modalitiesByDay: Map<String, List<TdcModality>>
+        private val modalitiesDates: List<String>
 ) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        val key = modalitiesByDay.keys.toList()[position]
-        val sessions = modalitiesByDay[key] ?: emptyList()
-        return ModalityListFragment().apply {
-            setSessionList(eventId, sessions)
-        }
+        val date = modalitiesDates[position]
+        return ModalityListFragment.newInstance(eventId, date)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return modalitiesByDay.keys.toList()[position]
+        return modalitiesDates[position]
     }
 
     override fun getCount(): Int {
-        return modalitiesByDay.count()
+        return modalitiesDates.count()
     }
 }

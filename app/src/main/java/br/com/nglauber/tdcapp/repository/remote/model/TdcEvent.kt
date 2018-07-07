@@ -7,16 +7,16 @@ data class TdcEvent(
         @SerializedName("descricao")
         val description: String,
         @SerializedName("chave")
-        val key: String,
+        val key: String?,
         @SerializedName("ativo")
-        val active: Boolean,
+        val active: Boolean?,
         @SerializedName("gratuito")
-        val free: Boolean,
+        val free: Boolean?,
         @SerializedName("dias")
         val days: Int,
-        val online: Boolean,
+        val online: Boolean?,
         @SerializedName("dataInicio")
-        val startDate: String,
+        val startDate: String?,
         @SerializedName("dataTermino")
-        val endDate: String
+        val endDate: String?
 )

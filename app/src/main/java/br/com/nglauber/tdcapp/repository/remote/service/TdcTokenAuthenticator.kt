@@ -6,7 +6,7 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
-class TdcTokenAuthenticator(private val tdcAuth: TdcAuth) : Authenticator {
+class TdcTokenAuthenticator(private val tdcAuth: TdcAuthStore) : Authenticator {
     companion object {
         const val ACCESS_TOKEN_URL = "https://api.globalcode.com.br/v1/oauth2/token"
         const val CLIENT_ID = BuildConfig.API_CLIENT_ID
