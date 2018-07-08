@@ -3,7 +3,6 @@ package br.com.nglauber.tdcapp.ui.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import br.com.nglauber.tdcapp.repository.remote.model.TdcModality
 import br.com.nglauber.tdcapp.ui.fragment.ModalityListFragment
 
 class ModalitiesPagerAdapter(

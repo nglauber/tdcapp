@@ -10,15 +10,16 @@ import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.EventsListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
-import br.com.nglauber.tdcapp.repository.model.Event
+import br.com.nglauber.tdcapp.presentation.model.EventBiding
 import br.com.nglauber.tdcapp.ui.adapter.EventAdapter
+import br.com.nglauber.tdcapp.ui.executor.UiThread
 import kotlinx.android.synthetic.main.activity_event_list.*
 
 class EventsListActivity : AppCompatActivity() {
 
     //TODO inject
     private val viewModel: EventsListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application)
+        val factory = AppViewModelFactory(this.application, UiThread())
         ViewModelProviders.of(this, factory).get(EventsListViewModel::class.java)
     }
 
@@ -39,7 +40,7 @@ class EventsListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleState(state: ViewState<List<Event>>) {
+    private fun handleState(state: ViewState<List<EventBiding>>) {
         when (state.status) {
             ViewState.Status.LOADING -> {
                 progressBar.visibility = View.VISIBLE
@@ -57,11 +58,11 @@ class EventsListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(eventList: List<Event>) {
+    private fun handleSuccess(eventList: List<EventBiding>) {
         progressBar.visibility = View.GONE
         listView.adapter = EventAdapter(this, eventList)
         listView.setOnItemClickListener { adapterView, _, i, _ ->
-            val event = adapterView.adapter.getItem(i) as Event
+            val event = adapterView.adapter.getItem(i) as EventBiding
             ModalityListActivity.startActivity(this, event.id)
         }
     }

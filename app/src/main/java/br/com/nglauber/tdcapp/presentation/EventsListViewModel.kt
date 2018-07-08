@@ -3,44 +3,37 @@ package br.com.nglauber.tdcapp.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.nglauber.tdcapp.repository.TdcRepository
-import br.com.nglauber.tdcapp.repository.model.Event
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import br.com.nglauber.tdcapp.domain.interactor.event.GetEvents
+import br.com.nglauber.tdcapp.presentation.mapper.EventMapper
+import br.com.nglauber.tdcapp.presentation.model.EventBiding
 
 //TODO Inject repository
-class EventsListViewModel(private val repository: TdcRepository) : ViewModel() {
+class EventsListViewModel(
+        private val getEvents: GetEvents,
+        private val mapper: EventMapper
+) : ViewModel() {
 
-    private val disposables = CompositeDisposable()
+    private val state: MutableLiveData<ViewState<List<EventBiding>>> = MutableLiveData()
 
-    private val state: MutableLiveData<ViewState<List<Event>>> = MutableLiveData()
-
-    fun getState(): LiveData<ViewState<List<Event>>> {
+    fun getState(): LiveData<ViewState<List<EventBiding>>> {
         return state
     }
 
     fun fetchEvents() {
         state.postValue(ViewState(ViewState.Status.LOADING))
-        disposables.add(repository.getEvents()
-                .map { eventList ->
-                    eventList.sortedByDescending { it.id }
+        getEvents.execute(null,
+                { eventList ->
+                    val list = eventList.map { mapper.parse(it) }
+                    state.postValue(ViewState(ViewState.Status.SUCCESS, list))
+                },
+                { e ->
+                    state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { eventList ->
-                            state.postValue(ViewState(ViewState.Status.SUCCESS, eventList))
-                        },
-                        { e ->
-                            state.postValue(ViewState(ViewState.Status.ERROR, error = e))
-                        }
-                )
         )
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposables.clear()
+        getEvents.dispose()
     }
 }

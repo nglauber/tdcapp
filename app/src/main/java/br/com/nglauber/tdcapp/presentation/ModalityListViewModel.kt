@@ -3,46 +3,44 @@ package br.com.nglauber.tdcapp.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.nglauber.tdcapp.repository.TdcRepository
-import br.com.nglauber.tdcapp.repository.model.Modality
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import br.com.nglauber.tdcapp.domain.interactor.modality.GetModalitiesByEvent
+import br.com.nglauber.tdcapp.presentation.mapper.ModalityMapper
+import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 
 //TODO Inject repository
-class ModalityListViewModel(private val repository: TdcRepository) : ViewModel() {
+class ModalityListViewModel(
+        private val getModalitiesByEvent: GetModalitiesByEvent,
+        private val mapper: ModalityMapper
 
-    private val disposables = CompositeDisposable()
+) : ViewModel() {
 
-    private val state: MutableLiveData<ViewState<Map<String, List<Modality>>>> = MutableLiveData()
+    private val state: MutableLiveData<ViewState<Map<String, List<ModalityBinding>>>> = MutableLiveData()
 
-    fun getState(): LiveData<ViewState<Map<String,List<Modality>>>> {
+    fun getState(): LiveData<ViewState<Map<String, List<ModalityBinding>>>> {
         return state
     }
 
     fun fetchModalities(eventId: Int) {
         state.postValue(ViewState(ViewState.Status.LOADING))
-        disposables.add(repository.getModalitiesByEvent(eventId)
-                .map { modalityList ->
-                    modalityList.sortedWith(
-                            compareBy({ it.date }, { it.positionOnEvent })
-                    ).groupBy { it.date }
+        getModalitiesByEvent.execute(
+                eventId,
+                { modalityList ->
+                    val modalitiesGroupedByDate = modalityList
+                            .map { mapper.parse(it) }
+                            .sortedWith(compareBy({ it.date }, { it.positionOnEvent }))
+                            .groupBy { it.date }
+                    state.postValue(
+                            ViewState(ViewState.Status.SUCCESS, modalitiesGroupedByDate)
+                    )
+                },
+                { e ->
+                    state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { modalityList ->
-                            state.postValue(ViewState(ViewState.Status.SUCCESS, modalityList))
-                        },
-                        { e ->
-                            state.postValue(ViewState(ViewState.Status.ERROR, error = e))
-                        }
-                )
         )
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposables.clear()
+        getModalitiesByEvent.dispose()
     }
 }

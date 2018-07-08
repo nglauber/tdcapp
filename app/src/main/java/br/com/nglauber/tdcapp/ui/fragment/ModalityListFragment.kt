@@ -9,9 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.ModalityListViewModel
-import br.com.nglauber.tdcapp.repository.model.Modality
+import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 import br.com.nglauber.tdcapp.ui.activity.SessionListActivity
 import br.com.nglauber.tdcapp.ui.adapter.ModalityAdapter
+import br.com.nglauber.tdcapp.ui.executor.UiThread
 import kotlinx.android.synthetic.main.activity_event_list.*
 
 class ModalityListFragment : Fragment() {
@@ -21,7 +22,7 @@ class ModalityListFragment : Fragment() {
     private val viewModel: ModalityListViewModel? by lazy {
         val sharedActivity = activity
         if (sharedActivity != null) {
-            val factory = AppViewModelFactory(sharedActivity.application) //TODO replace this !!
+            val factory = AppViewModelFactory(sharedActivity.application, UiThread()) //TODO find a better way to use the activity
             ViewModelProviders.of(sharedActivity, factory).get(ModalityListViewModel::class.java)
         } else {
             null
@@ -47,7 +48,7 @@ class ModalityListFragment : Fragment() {
             }
         }
         listView.setOnItemClickListener { adapterView, _, i, _ ->
-            val tdcActivity = adapterView.adapter.getItem(i) as Modality
+            val tdcActivity = adapterView.adapter.getItem(i) as ModalityBinding
             context?.let {
                 SessionListActivity.startActivity(it, eventId, tdcActivity.id)
             }

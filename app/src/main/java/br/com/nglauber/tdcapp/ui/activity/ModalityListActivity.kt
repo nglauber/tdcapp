@@ -12,15 +12,16 @@ import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.ModalityListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
-import br.com.nglauber.tdcapp.repository.model.Modality
+import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 import br.com.nglauber.tdcapp.ui.adapter.ModalitiesPagerAdapter
+import br.com.nglauber.tdcapp.ui.executor.UiThread
 import kotlinx.android.synthetic.main.activity_modality_list.*
 
 class ModalityListActivity : AppCompatActivity() {
 
     //TODO inject
     private val viewModel: ModalityListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application)
+        val factory = AppViewModelFactory(this.application, UiThread())
         ViewModelProviders.of(this, factory).get(ModalityListViewModel::class.java)
     }
 
@@ -50,7 +51,7 @@ class ModalityListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleState(eventId: Int, state: ViewState<Map<String, List<Modality>>>?) {
+    private fun handleState(eventId: Int, state: ViewState<Map<String, List<ModalityBinding>>>?) {
         when (state?.status) {
             ViewState.Status.LOADING -> {
                 progressBar.visibility = View.VISIBLE

@@ -16,8 +16,9 @@ import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.SessionViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
-import br.com.nglauber.tdcapp.repository.model.Session
-import br.com.nglauber.tdcapp.repository.model.Speaker
+import br.com.nglauber.tdcapp.presentation.model.SessionBinding
+import br.com.nglauber.tdcapp.presentation.model.SpeakerBinding
+import br.com.nglauber.tdcapp.ui.executor.UiThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_session_content.*
@@ -28,7 +29,7 @@ class SessionActivity : AppCompatActivity() {
 
     //TODO inject
     private val viewModel: SessionViewModel by lazy {
-        val factory = AppViewModelFactory(this.application)
+        val factory = AppViewModelFactory(this.application, UiThread())
         ViewModelProviders.of(this, factory).get(SessionViewModel::class.java)
     }
 
@@ -36,7 +37,7 @@ class SessionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session)
 
-        val session = intent.getParcelableExtra<Session>(EXTRA_SESSION)
+        val session = intent.getParcelableExtra<SessionBinding>(EXTRA_SESSION)
         val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
         val modalityId = intent.getIntExtra(EXTRA_MODALITY_ID, -1)
         if (eventId == -1 || modalityId == -1 || session == null) {
@@ -46,7 +47,7 @@ class SessionActivity : AppCompatActivity() {
         fetchSpeakers(eventId, modalityId, session)
     }
 
-    private fun fetchSpeakers(eventId: Int, modalityId: Int, session: Session) {
+    private fun fetchSpeakers(eventId: Int, modalityId: Int, session: SessionBinding) {
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
@@ -57,7 +58,7 @@ class SessionActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleState(state: ViewState<Pair<Session, List<Speaker>>>) {
+    private fun handleState(state: ViewState<Pair<SessionBinding, List<SpeakerBinding>>>) {
         when (state.status) {
             ViewState.Status.LOADING -> {
                 progressBar.visibility = View.VISIBLE
@@ -76,7 +77,7 @@ class SessionActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(session: Session, speakerList: List<Speaker>?) {
+    private fun handleSuccess(session: SessionBinding, speakerList: List<SpeakerBinding>?) {
         progressBar.visibility = View.GONE
         txtSpeakersTitle.visibility = View.VISIBLE
 
@@ -129,7 +130,7 @@ class SessionActivity : AppCompatActivity() {
         private const val EXTRA_MODALITY_ID = "modalityId"
         private const val EXTRA_EVENT_ID = "eventId"
 
-        fun startActivity(context: Context, eventId: Int, modalityId: Int, session: Session) {
+        fun startActivity(context: Context, eventId: Int, modalityId: Int, session: SessionBinding) {
             context.startActivity(Intent(context, SessionActivity::class.java).apply {
                 putExtra(EXTRA_EVENT_ID, eventId)
                 putExtra(EXTRA_MODALITY_ID, modalityId)

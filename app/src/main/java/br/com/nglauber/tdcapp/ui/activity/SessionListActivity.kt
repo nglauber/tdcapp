@@ -12,15 +12,16 @@ import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.SessionListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
-import br.com.nglauber.tdcapp.repository.model.Session
+import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.ui.adapter.SessionAdapter
+import br.com.nglauber.tdcapp.ui.executor.UiThread
 import kotlinx.android.synthetic.main.activity_session_list.*
 
 class SessionListActivity : AppCompatActivity() {
 
     //TODO inject
     private val viewModel: SessionListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application)
+        val factory = AppViewModelFactory(this.application, UiThread())
         ViewModelProviders.of(this, factory).get(SessionListViewModel::class.java)
     }
 
@@ -48,7 +49,7 @@ class SessionListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleState(state: ViewState<List<Session>>?) {
+    private fun handleState(state: ViewState<List<SessionBinding>>?) {
         when (state?.status) {
             ViewState.Status.LOADING -> {
                 progressBar.visibility = View.VISIBLE
@@ -66,11 +67,11 @@ class SessionListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(sessions: List<Session>) {
+    private fun handleSuccess(sessions: List<SessionBinding>) {
         progressBar.visibility = View.GONE
         listView.adapter = SessionAdapter(this, sessions)
         listView.setOnItemClickListener { adapterView, _, i, _ ->
-            val session = adapterView.adapter.getItem(i) as Session
+            val session = adapterView.adapter.getItem(i) as SessionBinding
             SessionActivity.startActivity(this, viewModel.eventId, viewModel.modalityId, session)
         }
     }
