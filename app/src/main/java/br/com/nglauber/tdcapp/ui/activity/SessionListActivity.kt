@@ -14,19 +14,24 @@ import br.com.nglauber.tdcapp.presentation.SessionListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.ui.adapter.SessionAdapter
-import br.com.nglauber.tdcapp.ui.executor.UiThread
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_session_list.*
+import javax.inject.Inject
 
 class SessionListActivity : AppCompatActivity() {
 
-    //TODO inject
-    private val viewModel: SessionListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application, UiThread())
-        ViewModelProviders.of(this, factory).get(SessionListViewModel::class.java)
-    }
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var viewModel: SessionListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(SessionListViewModel::class.java)
+
         setContentView(R.layout.activity_session_list)
 
         val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)

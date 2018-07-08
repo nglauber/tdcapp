@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.activity.SessionActivity">
 
-    <include layout="@layout/activity_session_content"/>
+    <include layout="@layout/activity_session_content" />
 </ScrollView>

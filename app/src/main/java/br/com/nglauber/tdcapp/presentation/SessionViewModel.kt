@@ -8,8 +8,9 @@ import br.com.nglauber.tdcapp.presentation.mapper.SpeakerMapper
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.presentation.model.SpeakerBinding
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class SessionViewModel(
+class SessionViewModel @Inject constructor(
         private val getSpeakersBySession: GetSpeakersBySession,
         private val speakerMapper: SpeakerMapper
 ) : ViewModel() {

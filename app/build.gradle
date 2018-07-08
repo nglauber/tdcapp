@@ -54,6 +54,12 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${archCompVersion}"
     kapt "android.arch.lifecycle:compiler:${archCompVersion}"
 
+    implementation "javax.inject:javax.inject:${javaxInjectVersion}"
+    implementation "com.google.dagger:dagger:${daggerVersion}"
+    implementation "com.google.dagger:dagger-android-support:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    kapt "com.google.dagger:dagger-android-processor:${daggerVersion}"
+
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test:runner:$testrunner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

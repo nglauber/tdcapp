@@ -2,8 +2,9 @@ package br.com.nglauber.tdcapp.presentation.mapper
 
 import br.com.nglauber.tdcapp.domain.model.Modality
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
+import javax.inject.Inject
 
-object ModalityMapper : Mapper<Modality, ModalityBinding> {
+class ModalityMapper @Inject constructor() : Mapper<Modality, ModalityBinding> {
     override fun parse(domain: Modality): ModalityBinding {
         return ModalityBinding(
                 domain.id,

@@ -1,5 +1,6 @@
 package br.com.nglauber.tdcapp.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,20 +13,30 @@ import br.com.nglauber.tdcapp.presentation.ModalityListViewModel
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 import br.com.nglauber.tdcapp.ui.activity.SessionListActivity
 import br.com.nglauber.tdcapp.ui.adapter.ModalityAdapter
-import br.com.nglauber.tdcapp.ui.executor.UiThread
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_event_list.*
+import javax.inject.Inject
 
 class ModalityListFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var viewModel: ModalityListViewModel
+
     private var eventId: Int = 0
     private var date: String = ""
-    private val viewModel: ModalityListViewModel? by lazy {
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+
         val sharedActivity = activity
         if (sharedActivity != null) {
-            val factory = AppViewModelFactory(sharedActivity.application, UiThread()) //TODO find a better way to use the activity
-            ViewModelProviders.of(sharedActivity, factory).get(ModalityListViewModel::class.java)
+            viewModel = ViewModelProviders.of(sharedActivity, viewModelFactory)
+                    .get(ModalityListViewModel::class.java)
         } else {
-            null
+            throw IllegalStateException("Activity is null")
         }
     }
 
@@ -41,7 +52,7 @@ class ModalityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val state = viewModel?.getState()?.value
+        val state = viewModel.getState().value
         state?.let {
             context?.let {
                 listView.adapter = ModalityAdapter(it, state.data?.get(date) ?: emptyList())
@@ -57,7 +68,7 @@ class ModalityListFragment : Fragment() {
 
     companion object {
         private const val EXTRA_EVENT_ID = "event_id"
-        private const val EXTRA_DATE = "event_id"
+        private const val EXTRA_DATE = "date"
 
         fun newInstance(eventId: Int, date: String): ModalityListFragment {
             return ModalityListFragment().apply {

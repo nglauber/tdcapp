@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
@@ -14,19 +15,30 @@ import br.com.nglauber.tdcapp.presentation.ModalityListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 import br.com.nglauber.tdcapp.ui.adapter.ModalitiesPagerAdapter
-import br.com.nglauber.tdcapp.ui.executor.UiThread
+import dagger.android.AndroidInjection
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_modality_list.*
+import javax.inject.Inject
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.AndroidInjector
 
-class ModalityListActivity : AppCompatActivity() {
 
-    //TODO inject
-    private val viewModel: ModalityListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application, UiThread())
-        ViewModelProviders.of(this, factory).get(ModalityListViewModel::class.java)
-    }
+class ModalityListActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var viewModel: ModalityListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(ModalityListViewModel::class.java)
+
         setContentView(R.layout.activity_modality_list)
 
         setSupportActionBar(toolbar)
@@ -38,6 +50,10 @@ class ModalityListActivity : AppCompatActivity() {
             return
         }
         fetchActivities(eventId)
+    }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return fragmentDispatchingAndroidInjector
     }
 
     private fun fetchActivities(eventId: Int) {

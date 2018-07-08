@@ -1,12 +1,14 @@
 package br.com.nglauber.tdcapp.data.remote.service
 
-import android.util.Log
 import br.com.nglauber.tdcapp.BuildConfig
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import javax.inject.Inject
 
-class TdcTokenAuthenticator(private val tdcAuth: TdcAuthStore) : Authenticator {
+class TdcTokenAuthenticator @Inject constructor(
+        private val tdcAuth: TdcAuthStore
+) : Authenticator {
     companion object {
         const val ACCESS_TOKEN_URL = "https://api.globalcode.com.br/v1/oauth2/token"
         const val CLIENT_ID = BuildConfig.API_CLIENT_ID
@@ -18,7 +20,6 @@ class TdcTokenAuthenticator(private val tdcAuth: TdcAuthStore) : Authenticator {
 
     @Throws(IOException::class)
     override fun authenticate(route: Route, response: Response): Request? {
-        Log.d("NGVL", "TdcTokenAuthenticator::authenticate")
         if (getRetryCount(response) >= 3) {
             return null // If we've failed 3 times, give up.
         }

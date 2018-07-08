@@ -12,19 +12,24 @@ import br.com.nglauber.tdcapp.presentation.EventsListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.EventBiding
 import br.com.nglauber.tdcapp.ui.adapter.EventAdapter
-import br.com.nglauber.tdcapp.ui.executor.UiThread
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_event_list.*
+import javax.inject.Inject
 
 class EventsListActivity : AppCompatActivity() {
 
-    //TODO inject
-    private val viewModel: EventsListViewModel by lazy {
-        val factory = AppViewModelFactory(this.application, UiThread())
-        ViewModelProviders.of(this, factory).get(EventsListViewModel::class.java)
-    }
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var viewModel: EventsListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(EventsListViewModel::class.java)
+
         setContentView(R.layout.activity_event_list)
         fetchEvents()
     }

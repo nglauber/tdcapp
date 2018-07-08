@@ -18,23 +18,28 @@ import br.com.nglauber.tdcapp.presentation.SessionViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.presentation.model.SpeakerBinding
-import br.com.nglauber.tdcapp.ui.executor.UiThread
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_session_content.*
 import kotlinx.android.synthetic.main.item_speaker.view.*
+import javax.inject.Inject
 
 
 class SessionActivity : AppCompatActivity() {
 
-    //TODO inject
-    private val viewModel: SessionViewModel by lazy {
-        val factory = AppViewModelFactory(this.application, UiThread())
-        ViewModelProviders.of(this, factory).get(SessionViewModel::class.java)
-    }
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var viewModel: SessionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(SessionViewModel::class.java)
+
         setContentView(R.layout.activity_session)
 
         val session = intent.getParcelableExtra<SessionBinding>(EXTRA_SESSION)
