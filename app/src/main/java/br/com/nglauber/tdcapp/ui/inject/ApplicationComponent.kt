@@ -4,7 +4,7 @@ import android.app.Application
 import br.com.nglauber.tdcapp.TdcApplication
 import br.com.nglauber.tdcapp.ui.inject.module.ApplicationModule
 import br.com.nglauber.tdcapp.ui.inject.module.PresentationModule
-import br.com.nglauber.tdcapp.ui.inject.module.RemoteModule
+import br.com.nglauber.tdcapp.ui.inject.module.PersistenceModule
 import br.com.nglauber.tdcapp.ui.inject.module.UiModule
 import dagger.BindsInstance
 import dagger.Component
@@ -16,7 +16,7 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     ApplicationModule::class,
     PresentationModule::class,
-    RemoteModule::class,
+    PersistenceModule::class,
     UiModule::class
 ])
 interface ApplicationComponent {

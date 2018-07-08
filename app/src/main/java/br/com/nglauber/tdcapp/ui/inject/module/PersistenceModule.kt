@@ -1,6 +1,7 @@
 package br.com.nglauber.tdcapp.ui.inject.module
 
 import br.com.nglauber.tdcapp.BuildConfig
+import br.com.nglauber.tdcapp.data.memory.InMemoryRepository
 import br.com.nglauber.tdcapp.data.remote.TdcRemoteRepository
 import br.com.nglauber.tdcapp.data.remote.service.TdcAuthStore
 import br.com.nglauber.tdcapp.data.remote.service.TdcWebService
@@ -12,12 +13,12 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class RemoteModule {
+abstract class PersistenceModule {
     @Binds
     abstract fun bindAuthStore(authStore: TdcAuthStoreImpl): TdcAuthStore
 
     @Binds
-    abstract fun bindRepository(remoteRepository: TdcRemoteRepository): TdcRepository
+    abstract fun bindRemoteRepository(remoteRepository: TdcRemoteRepository): TdcRepository
 
     @Module
     companion object {
