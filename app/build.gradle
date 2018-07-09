@@ -50,17 +50,21 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    implementation "android.arch.lifecycle:runtime:${archCompVersion}"
-    implementation "android.arch.lifecycle:extensions:${archCompVersion}"
-    kapt "android.arch.lifecycle:compiler:${archCompVersion}"
+    implementation "android.arch.lifecycle:runtime:${archcomp_version}"
+    implementation "android.arch.lifecycle:extensions:${archcomp_version}"
+    kapt "android.arch.lifecycle:compiler:${archcomp_version}"
 
-    implementation "javax.inject:javax.inject:${javaxInjectVersion}"
-    implementation "com.google.dagger:dagger:${daggerVersion}"
-    implementation "com.google.dagger:dagger-android-support:${daggerVersion}"
-    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
-    kapt "com.google.dagger:dagger-android-processor:${daggerVersion}"
+    implementation "javax.inject:javax.inject:${javaxinject_version}"
+    implementation "com.google.dagger:dagger:${dagger_version}"
+    implementation "com.google.dagger:dagger-android-support:${dagger_version}"
+    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
+    kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
 
     testImplementation "junit:junit:$junit_version"
+    testImplementation "com.nhaarman:mockito-kotlin:${mockitokotlin_version}"
+    testImplementation "org.assertj:assertj-core:${assertj_version}"
+    testImplementation "android.arch.core:core-testing:${archcomp_version}"
+
     androidTestImplementation "androidx.test:runner:$testrunner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 }
