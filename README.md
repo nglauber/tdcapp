@@ -52,7 +52,22 @@ apiClientId="<YOUR_CLIENT_ID>"
 apiSecret="<YOUR_API_SECRET>"
 ```
 
-And that's it!
+But if want to test the app without real data, just make the following change in the [PersistenceModule.kt](./app/src/main/java/br/com/nglauber/tdcapp/ui/inject/module/PersistenceModule.kt) file.
+```kotlin
+package br.com.nglauber.tdcapp.ui.inject.module
+// ...
+@Module
+abstract class PersistenceModule {
+    ...
+    // You just need to replace TdcRemoteRepository by InMemoryRepository like this
+
+    @Binds
+    abstract fun bindRemoteRepository(inMemory: InMemoryRepository): TdcRepository
+    ...
+}
+```
+And that's it! You're good to go.
+
 
 ## IMPORTANT! Credits!
 This sample is based on the sample presented by [Joe Birch](https://joebirch.co/) in [his course](https://caster.io/courses/android-clean-architecture) at [caster.io](https://caster.io/).
