@@ -1,6 +1,7 @@
 package br.com.nglauber.tdcapp.di
 
 import br.com.nglauber.tdcapp.BuildConfig
+import br.com.nglauber.tdcapp.data.memory.InMemoryRepository
 import br.com.nglauber.tdcapp.data.remote.TdcRemoteRepository
 import br.com.nglauber.tdcapp.data.remote.service.TdcAuthStore
 import br.com.nglauber.tdcapp.data.remote.service.TdcWebServiceFactory
@@ -20,6 +21,7 @@ val persistenceModule = module {
     }
     single {
         TdcRemoteRepository(tdcWebService = get()) as TdcRepository
+        //InMemoryRepository() as TdcRepository
     }
 }
 

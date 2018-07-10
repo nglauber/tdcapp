@@ -32,36 +32,29 @@ android {
 }
 
 dependencies {
+    implementation project(":domain")
+    implementation project(":data_remote")
+    implementation project(":data_memory")
+    implementation project(":presentation")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
     implementation "com.android.support:design:$design_version"
     implementation "com.google.android.material:material:$material_version"
 
-    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-    implementation "com.google.code.gson:gson:$gson_version"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    implementation "android.arch.lifecycle:runtime:${archcomp_version}"
-    implementation "android.arch.lifecycle:extensions:${archcomp_version}"
-    kapt "android.arch.lifecycle:compiler:${archcomp_version}"
-
-    implementation "org.koin:koin-android:${koin_version}"
-    implementation "org.koin:koin-androidx-scope:${koin_version}"
-    implementation "org.koin:koin-androidx-viewmodel:${koin_version}"
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     testImplementation "junit:junit:$junit_version"
-    testImplementation "com.nhaarman:mockito-kotlin:${mockitokotlin_version}"
-    testImplementation "org.assertj:assertj-core:${assertj_version}"
-    testImplementation "android.arch.core:core-testing:${archcomp_version}"
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitokotlin_version"
+    testImplementation "org.assertj:assertj-core:$assertj_version"
 
     androidTestImplementation "androidx.test:runner:$testrunner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"

@@ -1,0 +1,10 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(":domain")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
