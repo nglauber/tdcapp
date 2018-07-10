@@ -38,6 +38,7 @@ class ModalityListActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ModalityListViewModel::class.java)
+        lifecycle.addObserver(viewModel)
 
         setContentView(R.layout.activity_modality_list)
 
@@ -49,22 +50,20 @@ class ModalityListActivity : AppCompatActivity(), HasSupportFragmentInjector {
             finish()
             return
         }
-        fetchActivities(eventId)
+        observerModalities(eventId)
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentDispatchingAndroidInjector
     }
 
-    private fun fetchActivities(eventId: Int) {
+    private fun observerModalities(eventId: Int) {
+        viewModel.eventId = eventId
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(eventId, it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchModalities(eventId)
-        }
     }
 
     private fun handleState(eventId: Int, state: ViewState<Map<String, List<ModalityBinding>>>?) {

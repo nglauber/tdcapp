@@ -28,7 +28,7 @@ Session details are shown in this screen, including the speaker and his mini-bio
 ## Libraries
 This project is written in Kotlin and it's using the following libraries:
 * AppCompat
-* Android Architecture Components (View Model and LiveData)
+* Android Architecture Components (View Model, Lifecycle and LiveData)
 * ConstraintLayout
 * [Dagger](https://google.github.io/dagger/)
 * Material Design Library

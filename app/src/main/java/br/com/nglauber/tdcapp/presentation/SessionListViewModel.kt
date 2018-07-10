@@ -1,8 +1,6 @@
 package br.com.nglauber.tdcapp.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import br.com.nglauber.tdcapp.domain.interactor.session.GetSessionsByModality
 import br.com.nglauber.tdcapp.presentation.mapper.SessionMapper
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
@@ -11,7 +9,7 @@ import javax.inject.Inject
 class SessionListViewModel @Inject constructor(
         private val getSessions: GetSessionsByModality,
         private val mapper: SessionMapper
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
     var eventId: Int = 0
     var modalityId: Int = 0
 
@@ -37,6 +35,13 @@ class SessionListViewModel @Inject constructor(
                     state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
         )
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun fetchIfNeeded() {
+        if (state.value == null) {
+            fetchSessionsByModality(eventId, modalityId)
+        }
     }
 
     override fun onCleared() {

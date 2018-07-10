@@ -31,6 +31,7 @@ class SessionListActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(SessionListViewModel::class.java)
+        lifecycle.addObserver(viewModel)
 
         setContentView(R.layout.activity_session_list)
 
@@ -40,18 +41,17 @@ class SessionListActivity : AppCompatActivity() {
             finish()
             return
         }
-        fetchSessions(eventId, activityId)
+        observeSessions(eventId, activityId)
     }
 
-    private fun fetchSessions(eventId: Int, modalityId: Int) {
+    private fun observeSessions(eventId: Int, modalityId: Int) {
+        viewModel.eventId = eventId
+        viewModel.modalityId = modalityId
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchSessionsByModality(eventId, modalityId)
-        }
     }
 
     private fun handleState(state: ViewState<List<SessionBinding>>?) {

@@ -1,8 +1,6 @@
 package br.com.nglauber.tdcapp.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import br.com.nglauber.tdcapp.domain.interactor.modality.GetModalitiesByEvent
 import br.com.nglauber.tdcapp.presentation.mapper.ModalityMapper
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
@@ -12,8 +10,9 @@ class ModalityListViewModel @Inject constructor(
         private val getModalitiesByEvent: GetModalitiesByEvent,
         private val mapper: ModalityMapper
 
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
+    var eventId: Int = 0
     private val state: MutableLiveData<ViewState<Map<String, List<ModalityBinding>>>> = MutableLiveData()
 
     fun getState(): LiveData<ViewState<Map<String, List<ModalityBinding>>>> {
@@ -37,6 +36,13 @@ class ModalityListViewModel @Inject constructor(
                     state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
         )
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun fetchIfNeeded() {
+        if (state.value == null) {
+            fetchModalities(eventId)
+        }
     }
 
     override fun onCleared() {

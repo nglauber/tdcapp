@@ -1,8 +1,6 @@
 package br.com.nglauber.tdcapp.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import br.com.nglauber.tdcapp.domain.interactor.event.GetEvents
 import br.com.nglauber.tdcapp.presentation.mapper.EventMapper
 import br.com.nglauber.tdcapp.presentation.model.EventBiding
@@ -11,7 +9,7 @@ import javax.inject.Inject
 class EventsListViewModel @Inject constructor(
         private val getEvents: GetEvents,
         private val mapper: EventMapper
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
     private val state: MutableLiveData<ViewState<List<EventBiding>>> = MutableLiveData()
 
@@ -30,6 +28,13 @@ class EventsListViewModel @Inject constructor(
                     state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
         )
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun fetchIfNeeded() {
+        if (state.value == null) {
+            fetchEvents()
+        }
     }
 
     override fun onCleared() {

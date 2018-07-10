@@ -39,6 +39,7 @@ class SessionActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(SessionViewModel::class.java)
+        lifecycle.addObserver(viewModel)
 
         setContentView(R.layout.activity_session)
 
@@ -49,18 +50,18 @@ class SessionActivity : AppCompatActivity() {
             finish()
             return
         }
-        fetchSpeakers(eventId, modalityId, session)
+        observeSessionSpeakers(eventId, modalityId, session)
     }
 
-    private fun fetchSpeakers(eventId: Int, modalityId: Int, session: SessionBinding) {
+    private fun observeSessionSpeakers(eventId: Int, modalityId: Int, session: SessionBinding) {
+        viewModel.eventId = eventId
+        viewModel.modalityId = modalityId
+        viewModel.sessionBinding = session
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchSpeakersBySession(eventId, modalityId, session)
-        }
     }
 
     private fun handleState(state: ViewState<Pair<SessionBinding, List<SpeakerBinding>>>) {

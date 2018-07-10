@@ -29,20 +29,18 @@ class EventsListActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(EventsListViewModel::class.java)
+        lifecycle.addObserver(viewModel)
 
         setContentView(R.layout.activity_event_list)
-        fetchEvents()
+        observeEvents()
     }
 
-    private fun fetchEvents() {
+    private fun observeEvents() {
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchEvents()
-        }
     }
 
     private fun handleState(state: ViewState<List<EventBiding>>) {
