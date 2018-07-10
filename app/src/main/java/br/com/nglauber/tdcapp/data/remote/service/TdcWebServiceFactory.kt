@@ -11,10 +11,10 @@ class TdcWebServiceFactory {
 
     fun makeTdcWebService(tdcAuth: TdcAuthStore, isDebug: Boolean): TdcWebService {
         val okHttpClient = makeOkHttpClient(tdcAuth, makeLoggingInterceptor(isDebug))
-        return makeAlbumWebService(okHttpClient)
+        return makeTdcWebService(okHttpClient)
     }
 
-    private fun makeAlbumWebService(okHttpClient: OkHttpClient): TdcWebService {
+    private fun makeTdcWebService(okHttpClient: OkHttpClient): TdcWebService {
         val retrofit = Retrofit.Builder()
                 .baseUrl(TdcWebService.API_BASE_URL)
                 .client(okHttpClient)
