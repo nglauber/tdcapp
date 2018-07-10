@@ -7,7 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class TdcWebServiceFactory {
+object TdcWebServiceFactory {
 
     fun makeTdcWebService(tdcAuth: TdcAuthStore, isDebug: Boolean): TdcWebService {
         val okHttpClient = makeOkHttpClient(tdcAuth, makeLoggingInterceptor(isDebug))

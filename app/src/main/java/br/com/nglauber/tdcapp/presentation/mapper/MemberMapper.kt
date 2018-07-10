@@ -2,9 +2,8 @@ package br.com.nglauber.tdcapp.presentation.mapper
 
 import br.com.nglauber.tdcapp.domain.model.Member
 import br.com.nglauber.tdcapp.presentation.model.MemberBinding
-import javax.inject.Inject
 
-class MemberMapper @Inject constructor(): Mapper<Member, MemberBinding> {
+class MemberMapper : Mapper<Member, MemberBinding> {
     override fun parse(domain: Member): MemberBinding {
         return MemberBinding(
                 domain.id,

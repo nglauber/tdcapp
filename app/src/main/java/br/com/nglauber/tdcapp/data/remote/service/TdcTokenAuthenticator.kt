@@ -4,9 +4,8 @@ import br.com.nglauber.tdcapp.BuildConfig
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import javax.inject.Inject
 
-class TdcTokenAuthenticator @Inject constructor(
+class TdcTokenAuthenticator (
         private val tdcAuth: TdcAuthStore
 ) : Authenticator {
     companion object {

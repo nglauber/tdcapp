@@ -54,11 +54,12 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${archcomp_version}"
     kapt "android.arch.lifecycle:compiler:${archcomp_version}"
 
-    implementation "javax.inject:javax.inject:${javaxinject_version}"
-    implementation "com.google.dagger:dagger:${dagger_version}"
-    implementation "com.google.dagger:dagger-android-support:${dagger_version}"
-    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
-    kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
+    // Koin for Android
+    implementation "org.koin:koin-android:${koin_version}"
+    // Koin Android Scope feature
+    implementation "org.koin:koin-androidx-scope:${koin_version}"
+    // Koin Android ViewModel feature
+    implementation "org.koin:koin-androidx-viewmodel:${koin_version}"
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "com.nhaarman:mockito-kotlin:${mockitokotlin_version}"

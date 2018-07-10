@@ -7,32 +7,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
-import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.SessionListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.ui.adapter.SessionAdapter
-import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_session_list.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SessionListActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: AppViewModelFactory
-    @Inject
-    lateinit var viewModel: SessionListViewModel
+
+    private val viewModel: SessionListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(SessionListViewModel::class.java)
-        lifecycle.addObserver(viewModel)
-
         setContentView(R.layout.activity_session_list)
 
         val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)

@@ -1,29 +1,21 @@
 package br.com.nglauber.tdcapp
 
-import android.app.Activity
 import android.app.Application
-import br.com.nglauber.tdcapp.inject.DaggerApplicationComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import br.com.nglauber.tdcapp.di.androidModule
+import br.com.nglauber.tdcapp.di.domainModule
+import br.com.nglauber.tdcapp.di.persistenceModule
+import br.com.nglauber.tdcapp.di.presentationModule
+import org.koin.android.ext.android.startKoin
 
-class TdcApplication: Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Activity>
+class TdcApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
-        DaggerApplicationComponent
-                .builder()
-                .application(this)
-                .build()
-                .inject(this)
-    }
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return androidInjector
+        startKoin(this,
+                listOf(androidModule,
+                        persistenceModule,
+                        domainModule,
+                        presentationModule))
     }
 }

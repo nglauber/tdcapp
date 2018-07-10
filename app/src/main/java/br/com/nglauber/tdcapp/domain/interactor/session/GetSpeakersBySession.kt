@@ -5,9 +5,8 @@ import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Speaker
 import br.com.nglauber.tdcapp.domain.repository.TdcRepository
 import io.reactivex.Observable
-import javax.inject.Inject
 
-open class GetSpeakersBySession @Inject constructor(
+open class GetSpeakersBySession(
         private val repository: TdcRepository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Speaker>, GetSpeakersBySession.Params>(postExecutionThread) {

@@ -1,44 +1,24 @@
 package br.com.nglauber.tdcapp.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
-import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.ModalityListViewModel
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
 import br.com.nglauber.tdcapp.ui.activity.SessionListActivity
 import br.com.nglauber.tdcapp.ui.adapter.ModalityAdapter
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.activity_event_list.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ModalityListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: AppViewModelFactory
-    @Inject
-    lateinit var viewModel: ModalityListViewModel
+    private val viewModel: ModalityListViewModel by sharedViewModel()
 
     private var eventId: Int = 0
     private var date: String = ""
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        AndroidSupportInjection.inject(this)
-
-        val sharedActivity = activity
-        if (sharedActivity != null) {
-            viewModel = ViewModelProviders.of(sharedActivity, viewModelFactory)
-                    .get(ModalityListViewModel::class.java)
-        } else {
-            throw IllegalStateException("Activity is null")
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
