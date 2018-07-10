@@ -22,7 +22,6 @@ class SessionListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_session_list)
 
         val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
@@ -31,18 +30,17 @@ class SessionListActivity : AppCompatActivity() {
             finish()
             return
         }
-        fetchSessions(eventId, activityId)
+        observeSessions(eventId, activityId)
     }
 
-    private fun fetchSessions(eventId: Int, modalityId: Int) {
+    private fun observeSessions(eventId: Int, modalityId: Int) {
+        viewModel.eventId = eventId
+        viewModel.modalityId = modalityId
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchSessionsByModality(eventId, modalityId)
-        }
     }
 
     private fun handleState(state: ViewState<List<SessionBinding>>?) {

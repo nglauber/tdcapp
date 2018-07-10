@@ -19,20 +19,16 @@ class EventsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_event_list)
-        fetchEvents()
+        observeEvents()
     }
 
-    private fun fetchEvents() {
+    private fun observeEvents() {
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchEvents()
-        }
     }
 
     private fun handleState(state: ViewState<List<EventBiding>>) {

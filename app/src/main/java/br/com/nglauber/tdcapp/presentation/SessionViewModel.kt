@@ -1,8 +1,6 @@
 package br.com.nglauber.tdcapp.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import br.com.nglauber.tdcapp.domain.interactor.session.GetSpeakersBySession
 import br.com.nglauber.tdcapp.presentation.mapper.SpeakerMapper
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
@@ -12,7 +10,11 @@ import io.reactivex.disposables.CompositeDisposable
 class SessionViewModel(
         private val getSpeakersBySession: GetSpeakersBySession,
         private val speakerMapper: SpeakerMapper
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
+
+    var eventId: Int = 0
+    var modalityId: Int = 0
+    var sessionBinding: SessionBinding? = null
 
     private val disposables = CompositeDisposable()
 
@@ -36,6 +38,15 @@ class SessionViewModel(
                     state.postValue(ViewState(ViewState.Status.ERROR, error = e))
                 }
         )
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun fetchIfNeeded() {
+        if (state.value == null) {
+            sessionBinding?.let {
+                fetchSpeakersBySession(eventId, modalityId, it)
+            }
+        }
     }
 
     override fun onCleared() {

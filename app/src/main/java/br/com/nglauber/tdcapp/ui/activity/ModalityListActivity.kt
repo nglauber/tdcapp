@@ -21,7 +21,6 @@ class ModalityListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_modality_list)
 
         setSupportActionBar(toolbar)
@@ -32,18 +31,16 @@ class ModalityListActivity : AppCompatActivity() {
             finish()
             return
         }
-        fetchActivities(eventId)
+        observerModalities(eventId)
     }
 
-    private fun fetchActivities(eventId: Int) {
+    private fun observerModalities(eventId: Int) {
+        viewModel.eventId = eventId
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
                 handleState(eventId, it)
             }
         })
-        if (viewModel.getState().value == null) {
-            viewModel.fetchModalities(eventId)
-        }
     }
 
     private fun handleState(eventId: Int, state: ViewState<Map<String, List<ModalityBinding>>>?) {
