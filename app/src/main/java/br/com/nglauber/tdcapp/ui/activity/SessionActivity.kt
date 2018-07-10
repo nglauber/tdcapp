@@ -11,34 +11,24 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import br.com.nglauber.tdcapp.R
-import br.com.nglauber.tdcapp.presentation.AppViewModelFactory
 import br.com.nglauber.tdcapp.presentation.SessionViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
 import br.com.nglauber.tdcapp.presentation.model.SpeakerBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_session_content.*
 import kotlinx.android.synthetic.main.item_speaker.view.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SessionActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: AppViewModelFactory
-    @Inject
-    lateinit var viewModel: SessionViewModel
+    private val viewModel: SessionViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(SessionViewModel::class.java)
 
         setContentView(R.layout.activity_session)
 

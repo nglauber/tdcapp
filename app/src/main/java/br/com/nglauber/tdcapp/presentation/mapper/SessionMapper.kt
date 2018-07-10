@@ -2,9 +2,8 @@ package br.com.nglauber.tdcapp.presentation.mapper
 
 import br.com.nglauber.tdcapp.domain.model.Session
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
-import javax.inject.Inject
 
-class SessionMapper @Inject constructor() : Mapper<Session, SessionBinding> {
+class SessionMapper : Mapper<Session, SessionBinding> {
     override fun parse(domain: Session): SessionBinding {
         return SessionBinding(
                 domain.id,

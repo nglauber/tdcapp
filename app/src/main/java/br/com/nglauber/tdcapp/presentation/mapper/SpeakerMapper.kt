@@ -2,9 +2,8 @@ package br.com.nglauber.tdcapp.presentation.mapper
 
 import br.com.nglauber.tdcapp.domain.model.Speaker
 import br.com.nglauber.tdcapp.presentation.model.SpeakerBinding
-import javax.inject.Inject
 
-class SpeakerMapper @Inject constructor(
+class SpeakerMapper(
         private val memberMapper: MemberMapper,
         private val miniBioMapper: MiniBioMapper
 ) : Mapper<Speaker, SpeakerBinding> {

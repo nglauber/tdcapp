@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import br.com.nglauber.tdcapp.domain.interactor.event.GetEvents
 import br.com.nglauber.tdcapp.presentation.mapper.EventMapper
 import br.com.nglauber.tdcapp.presentation.model.EventBiding
-import javax.inject.Inject
 
-class EventsListViewModel @Inject constructor(
+class EventsListViewModel(
         private val getEvents: GetEvents,
         private val mapper: EventMapper
 ) : ViewModel() {

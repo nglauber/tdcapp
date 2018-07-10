@@ -12,9 +12,8 @@ import br.com.nglauber.tdcapp.domain.model.Modality
 import br.com.nglauber.tdcapp.domain.model.Session
 import br.com.nglauber.tdcapp.domain.model.Speaker
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class TdcRemoteRepository @Inject constructor(
+class TdcRemoteRepository (
         private val tdcWebService: TdcWebService
 ) : TdcRepository {
     override fun getEvents(): Observable<List<Event>> {

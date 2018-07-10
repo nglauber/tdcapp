@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import br.com.nglauber.tdcapp.domain.interactor.modality.GetModalitiesByEvent
 import br.com.nglauber.tdcapp.presentation.mapper.ModalityMapper
 import br.com.nglauber.tdcapp.presentation.model.ModalityBinding
-import javax.inject.Inject
 
-class ModalityListViewModel @Inject constructor(
+class ModalityListViewModel(
         private val getModalitiesByEvent: GetModalitiesByEvent,
         private val mapper: ModalityMapper
 

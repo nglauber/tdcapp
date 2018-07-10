@@ -5,9 +5,8 @@ import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Event
 import br.com.nglauber.tdcapp.domain.repository.TdcRepository
 import io.reactivex.Observable
-import javax.inject.Inject
 
-open class GetEvents @Inject constructor(
+open class GetEvents(
         private val repository: TdcRepository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Event>, Unit>(postExecutionThread) {

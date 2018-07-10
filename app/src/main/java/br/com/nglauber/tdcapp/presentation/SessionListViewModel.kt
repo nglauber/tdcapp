@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel
 import br.com.nglauber.tdcapp.domain.interactor.session.GetSessionsByModality
 import br.com.nglauber.tdcapp.presentation.mapper.SessionMapper
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
-import javax.inject.Inject
 
-class SessionListViewModel @Inject constructor(
+class SessionListViewModel (
         private val getSessions: GetSessionsByModality,
         private val mapper: SessionMapper
 ) : ViewModel() {

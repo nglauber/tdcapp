@@ -5,9 +5,8 @@ import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Modality
 import br.com.nglauber.tdcapp.domain.repository.TdcRepository
 import io.reactivex.Observable
-import javax.inject.Inject
 
-open class GetModalitiesByEvent @Inject constructor(
+open class GetModalitiesByEvent (
         private val repository: TdcRepository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Modality>, Int>(postExecutionThread) {

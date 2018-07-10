@@ -2,9 +2,8 @@ package br.com.nglauber.tdcapp.data.remote.service
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import javax.inject.Inject
 
-class TdcAuthInterceptor @Inject constructor(
+class TdcAuthInterceptor (
         private val auth: TdcAuthStore
 ) : Interceptor {
 
