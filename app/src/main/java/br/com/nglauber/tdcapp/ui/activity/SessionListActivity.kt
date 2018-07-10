@@ -30,6 +30,7 @@ class SessionListActivity : AppCompatActivity() {
             finish()
             return
         }
+        lifecycle.addObserver(viewModel)
         observeSessions(eventId, activityId)
     }
 

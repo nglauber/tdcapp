@@ -31,6 +31,7 @@ class ModalityListActivity : AppCompatActivity() {
             finish()
             return
         }
+        lifecycle.addObserver(viewModel)
         observerModalities(eventId)
     }
 

@@ -54,11 +54,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:${archcomp_version}"
     kapt "android.arch.lifecycle:compiler:${archcomp_version}"
 
-    // Koin for Android
     implementation "org.koin:koin-android:${koin_version}"
-    // Koin Android Scope feature
     implementation "org.koin:koin-androidx-scope:${koin_version}"
-    // Koin Android ViewModel feature
     implementation "org.koin:koin-androidx-viewmodel:${koin_version}"
 
     testImplementation "junit:junit:$junit_version"

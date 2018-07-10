@@ -30,12 +30,12 @@ This project is written in Kotlin and it's using the following libraries:
 * AppCompat
 * Android Architecture Components (View Model, Lifecycle and LiveData)
 * ConstraintLayout
-* [Dagger](https://google.github.io/dagger/)
 * Material Design Library
 * [Glide](https://github.com/bumptech/glide)
 * [Gson](https://github.com/google/gson)
 * Javax Inject
 * JUnit
+* [Koin](https://github.com/InsertKoinIO/koin/)
 * [Mockito](http://site.mockito.org/)
 * [OkHttp](http://square.github.io/okhttp/)
 * [Retrofit](http://square.github.io/retrofit/)
@@ -52,18 +52,14 @@ apiClientId="<YOUR_CLIENT_ID>"
 apiSecret="<YOUR_API_SECRET>"
 ```
 
-But if want to test the app without real data, just make the following change in the [PersistenceModule.kt](./app/src/main/java/br/com/nglauber/tdcapp/ui/inject/module/PersistenceModule.kt) file.
+But if want to test the app without real data, just make the following change in the [PersistenceModule.kt](./app/src/main/java/br/com/nglauber/tdcapp/di/PersistenceModule.kt) file.
 ```kotlin
-package br.com.nglauber.tdcapp.ui.inject.module
+package br.com.nglauber.tdcapp.di
 // ...
-@Module
-abstract class PersistenceModule {
+val persistenceModule = module {
     ...
-    // You just need to replace TdcRemoteRepository by InMemoryRepository like this
-
-    @Binds
-    abstract fun bindRemoteRepository(inMemory: InMemoryRepository): TdcRepository
-    ...
+    // Change this line
+    single { InMemoryRepository() as TdcRepository }
 }
 ```
 And that's it! You're good to go.

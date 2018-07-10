@@ -38,6 +38,7 @@ class SessionActivity : AppCompatActivity() {
             finish()
             return
         }
+        lifecycle.addObserver(viewModel)
         observeSessionSpeakers(eventId, modalityId, session)
     }
 
