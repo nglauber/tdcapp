@@ -16,8 +16,8 @@ abstract class ObservableUseCase<T, in Params> constructor(
 
     open fun execute(
             params: Params? = null,
-            onNext: ((T) -> Unit)? = null,
-            onError: ((e: Throwable) -> Unit)? = null,
+            onNext: (T) -> Unit,
+            onError: (e: Throwable) -> Unit,
             onComplete: (() -> Unit)? = null) {
         val observable = this.buildUseCaseObservable(params)
                 .subscribeOn(Schedulers.io())
@@ -28,11 +28,11 @@ abstract class ObservableUseCase<T, in Params> constructor(
             }
 
             override fun onNext(t: T) {
-                onNext?.invoke(t)
+                onNext.invoke(t)
             }
 
             override fun onError(e: Throwable) {
-                onError?.invoke(e)
+                onError.invoke(e)
             }
         }))
     }
