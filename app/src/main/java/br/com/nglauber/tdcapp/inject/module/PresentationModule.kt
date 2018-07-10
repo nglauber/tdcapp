@@ -1,8 +1,8 @@
-package br.com.nglauber.tdcapp.ui.inject.module
+package br.com.nglauber.tdcapp.inject.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.nglauber.tdcapp.ui.inject.ViewModelKey
+import br.com.nglauber.tdcapp.inject.ViewModelKey
 import br.com.nglauber.tdcapp.presentation.*
 import dagger.Binds
 import dagger.Module

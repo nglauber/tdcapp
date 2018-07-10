@@ -1,7 +1,6 @@
-package br.com.nglauber.tdcapp.ui.inject.module
+package br.com.nglauber.tdcapp.inject.module
 
 import br.com.nglauber.tdcapp.BuildConfig
-import br.com.nglauber.tdcapp.data.memory.InMemoryRepository
 import br.com.nglauber.tdcapp.data.remote.TdcRemoteRepository
 import br.com.nglauber.tdcapp.data.remote.service.TdcAuthStore
 import br.com.nglauber.tdcapp.data.remote.service.TdcWebService

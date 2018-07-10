@@ -1,4 +1,4 @@
-package br.com.nglauber.tdcapp.ui.inject.module
+package br.com.nglauber.tdcapp.inject.module
 
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.ui.activity.EventsListActivity

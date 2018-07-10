@@ -1,4 +1,4 @@
-package br.com.nglauber.tdcapp.ui.inject
+package br.com.nglauber.tdcapp.inject
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

@@ -1,4 +1,4 @@
-package br.com.nglauber.tdcapp.ui.inject.module
+package br.com.nglauber.tdcapp.inject.module
 
 import android.app.Application
 import android.content.Context

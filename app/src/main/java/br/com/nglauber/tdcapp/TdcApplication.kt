@@ -2,7 +2,7 @@ package br.com.nglauber.tdcapp
 
 import android.app.Activity
 import android.app.Application
-import br.com.nglauber.tdcapp.ui.inject.DaggerApplicationComponent
+import br.com.nglauber.tdcapp.inject.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector

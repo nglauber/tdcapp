@@ -1,11 +1,11 @@
-package br.com.nglauber.tdcapp.ui.inject
+package br.com.nglauber.tdcapp.inject
 
 import android.app.Application
 import br.com.nglauber.tdcapp.TdcApplication
-import br.com.nglauber.tdcapp.ui.inject.module.ApplicationModule
-import br.com.nglauber.tdcapp.ui.inject.module.PresentationModule
-import br.com.nglauber.tdcapp.ui.inject.module.PersistenceModule
-import br.com.nglauber.tdcapp.ui.inject.module.UiModule
+import br.com.nglauber.tdcapp.inject.module.ApplicationModule
+import br.com.nglauber.tdcapp.inject.module.PresentationModule
+import br.com.nglauber.tdcapp.inject.module.PersistenceModule
+import br.com.nglauber.tdcapp.inject.module.UiModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
