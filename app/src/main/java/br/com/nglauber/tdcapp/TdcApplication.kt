@@ -13,9 +13,12 @@ class TdcApplication : Application() {
         super.onCreate()
 
         startKoin(this,
-                listOf(androidModule,
+                listOf(
+                        androidModule,
                         persistenceModule,
                         domainModule,
-                        presentationModule))
+                        presentationModule
+                )
+        )
     }
 }

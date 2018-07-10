@@ -30,10 +30,9 @@ This project is written in Kotlin and it's using the following libraries:
 * AppCompat
 * Android Architecture Components (View Model, Lifecycle and LiveData)
 * ConstraintLayout
-* Material Design Library
+* Material Design Components Library
 * [Glide](https://github.com/bumptech/glide)
 * [Gson](https://github.com/google/gson)
-* Javax Inject
 * JUnit
 * [Koin](https://github.com/InsertKoinIO/koin/)
 * [Mockito](http://site.mockito.org/)
@@ -52,14 +51,16 @@ apiClientId="<YOUR_CLIENT_ID>"
 apiSecret="<YOUR_API_SECRET>"
 ```
 
-But if want to test the app without real data, just make the following change in the [PersistenceModule.kt](./app/src/main/java/br/com/nglauber/tdcapp/di/PersistenceModule.kt) file.
+But if want to test the app without real data (or you cannot have an API key), just make the following change in the [PersistenceModule.kt](./app/src/main/java/br/com/nglauber/tdcapp/di/PersistenceModule.kt) file.
 ```kotlin
 package br.com.nglauber.tdcapp.di
 // ...
 val persistenceModule = module {
     ...
-    // Change this line
-    single { InMemoryRepository() as TdcRepository }
+    single {
+        // Instead of this --> TdcRemoteRepository(tdcWebService = get()) as TdcRepository
+        InMemoryRepository() as TdcRepository // Use this
+    }
 }
 ```
 And that's it! You're good to go.

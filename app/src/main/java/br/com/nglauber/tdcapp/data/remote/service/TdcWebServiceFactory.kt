@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
 
 object TdcWebServiceFactory {
 
-    fun makeTdcWebService(tdcAuth: TdcAuthStore, isDebug: Boolean): TdcWebService {
-        val okHttpClient = makeOkHttpClient(tdcAuth, makeLoggingInterceptor(isDebug))
+    fun makeTdcWebService(authStore: TdcAuthStore, isDebug: Boolean): TdcWebService {
+        val okHttpClient = makeOkHttpClient(authStore, makeLoggingInterceptor(isDebug))
         return makeTdcWebService(okHttpClient)
     }
 

@@ -9,9 +9,17 @@ import br.com.nglauber.tdcapp.ui.auth.TdcAuthStoreImpl
 import org.koin.dsl.module.module
 
 val persistenceModule = module {
-
-    single { TdcAuthStoreImpl(get()) as TdcAuthStore }
-    single { TdcWebServiceFactory.makeTdcWebService(get(), BuildConfig.DEBUG) }
-    single { TdcRemoteRepository(get()) as TdcRepository }
+    single {
+        TdcAuthStoreImpl(ctx = get()) as TdcAuthStore
+    }
+    single {
+        TdcWebServiceFactory.makeTdcWebService(
+                authStore = get(),
+                isDebug = BuildConfig.DEBUG
+        )
+    }
+    single {
+        TdcRemoteRepository(tdcWebService = get()) as TdcRepository
+    }
 }
 
