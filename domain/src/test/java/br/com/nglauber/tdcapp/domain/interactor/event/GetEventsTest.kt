@@ -2,7 +2,7 @@ package br.com.nglauber.tdcapp.domain.interactor.event
 
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.model.Event
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import br.com.nglauber.tdcapp.domain.test.DomainDataFactory
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 class GetEventsTest {
     private lateinit var getEvents: GetEvents
     @Mock
-    lateinit var repository: TdcRepository
+    lateinit var repository: Repository
     @Mock
     lateinit var postExecutionThread: PostExecutionThread
 

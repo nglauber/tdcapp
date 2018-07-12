@@ -19,20 +19,20 @@ interface TdcWebService {
 
     @GET(PATH_GET_MODALITIES_BY_EVENT)
     fun getModalitiesByEvent(
-            @Path(PARAM_EVENT_ID) eventId: Int
+            @Path(PARAM_EVENT_ID) eventId: Long
     ): Observable<List<TdcModality>>
 
     @GET(PATH_GET_SESSIONS_BY_MODALITY)
     fun getSessionsByModality(
-            @Path(PARAM_EVENT_ID) eventId: Int,
-            @Path(PARAM_MODALITY_ID) modalityId: Int
+            @Path(PARAM_EVENT_ID) eventId: Long,
+            @Path(PARAM_MODALITY_ID) modalityId: Long
     ): Observable<List<TdcSession>>
 
     @GET(PATH_GET_SPEAKERS_BY_SESSION)
     fun getSpeakersBySession(
-            @Path(PARAM_EVENT_ID) eventId: Int,
-            @Path(PARAM_MODALITY_ID) modalityId: Int,
-            @Path(PARAM_SESSION_ID) sessionId: Int
+            @Path(PARAM_EVENT_ID) eventId: Long,
+            @Path(PARAM_MODALITY_ID) modalityId: Long,
+            @Path(PARAM_SESSION_ID) sessionId: Long
     ): Observable<List<TdcSpeaker>>
 
     companion object {

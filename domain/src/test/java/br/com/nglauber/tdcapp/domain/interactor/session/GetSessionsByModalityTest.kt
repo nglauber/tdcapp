@@ -2,7 +2,7 @@ package br.com.nglauber.tdcapp.domain.interactor.session
 
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.model.Session
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import br.com.nglauber.tdcapp.domain.test.DomainDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
 class GetSessionsByModalityTest {
     private lateinit var getSessionsByModality: GetSessionsByModality
     @Mock
-    lateinit var repository: TdcRepository
+    lateinit var repository: Repository
     @Mock
     lateinit var postExecutionThread: PostExecutionThread
 

@@ -4,7 +4,7 @@ import br.com.nglauber.tdcapp.data.remote.model.*
 
 object RemoteDataFactory {
     fun makeEvent() = TdcEvent(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -24,7 +24,7 @@ object RemoteDataFactory {
     }
 
     fun makeModality() = TdcModality(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -48,7 +48,7 @@ object RemoteDataFactory {
     }
 
     fun makeSession() = TdcSession(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomInt(),
             DataFactory.randomInt(),
             DataFactory.randomBoolean(),
@@ -90,7 +90,7 @@ object RemoteDataFactory {
     )
 
     fun makeSpeaker() = TdcSpeaker(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             makeMember(),
             makeMiniBio()
     )

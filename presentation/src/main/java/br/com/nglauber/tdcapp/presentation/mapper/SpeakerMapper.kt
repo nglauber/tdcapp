@@ -7,11 +7,19 @@ class SpeakerMapper(
         private val memberMapper: MemberMapper,
         private val miniBioMapper: MiniBioMapper
 ) : Mapper<Speaker, SpeakerBinding> {
-    override fun parse(domain: Speaker): SpeakerBinding {
+    override fun toDomain(presentation: SpeakerBinding): Speaker {
+        return Speaker(
+                presentation.id,
+                memberMapper.toDomain(presentation.member),
+                miniBioMapper.toDomain(presentation.miniBio)
+        )
+    }
+
+    override fun fromDomain(domain: Speaker): SpeakerBinding {
         return SpeakerBinding(
                 domain.id,
-                memberMapper.parse(domain.member),
-                miniBioMapper.parse(domain.miniBio)
+                memberMapper.fromDomain(domain.member),
+                miniBioMapper.fromDomain(domain.miniBio)
         )
     }
 }

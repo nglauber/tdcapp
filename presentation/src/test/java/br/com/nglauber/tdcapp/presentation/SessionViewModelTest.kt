@@ -1,10 +1,13 @@
 package br.com.nglauber.tdcapp.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.nglauber.tdcapp.domain.interactor.session.BookmarkSession
 import br.com.nglauber.tdcapp.domain.interactor.session.GetSpeakersBySession
+import br.com.nglauber.tdcapp.domain.interactor.session.UnbookmarkSession
 import br.com.nglauber.tdcapp.domain.model.Speaker
 import br.com.nglauber.tdcapp.presentation.mapper.MemberMapper
 import br.com.nglauber.tdcapp.presentation.mapper.MiniBioMapper
+import br.com.nglauber.tdcapp.presentation.mapper.SessionMapper
 import br.com.nglauber.tdcapp.presentation.mapper.SpeakerMapper
 import br.com.nglauber.tdcapp.presentation.test.DomainDataFactory
 import br.com.nglauber.tdcapp.test.PresentationDataFactory
@@ -22,9 +25,12 @@ class SessionViewModelTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val mapper = SpeakerMapper(MemberMapper(), MiniBioMapper()) // TODO improve this
+    private val speakerMapper = SpeakerMapper(MemberMapper(), MiniBioMapper()) // TODO improve this
+    private val sessionMapper = SessionMapper()
     private var getSpeakersBySession = mock<GetSpeakersBySession>()
-    private var sessionViewModel = SessionViewModel(getSpeakersBySession, mapper)
+    private var bookmarkSession = mock<BookmarkSession>()
+    private var unbookmarkSesion = mock<UnbookmarkSession>()
+    private var sessionViewModel = SessionViewModel(getSpeakersBySession, bookmarkSession, unbookmarkSesion, sessionMapper, speakerMapper)
 
     @Captor
     private val captor = argumentCaptor<((List<Speaker>) -> Unit)>()
@@ -41,8 +47,8 @@ class SessionViewModelTest {
 
     @Test
     fun fetchSpeakersReturnsSuccess() {
-        val eventId = 1
-        val modality = 2
+        val eventId = 1L
+        val modality = 2L
         val sessionBinding = PresentationDataFactory.makeSession()
         val speakers = DomainDataFactory.makeSpeakersList(2)
 
@@ -58,12 +64,12 @@ class SessionViewModelTest {
 
     @Test
     fun fetchSpeakersReturnsData() {
-        val eventId = 1
-        val modality = 2
+        val eventId = 1L
+        val modality = 2L
         val sessionBinding = PresentationDataFactory.makeSession()
 
         val speakers = DomainDataFactory.makeSpeakersList(2)
-        val speakerBindings = speakers.map { mapper.parse(it) }
+        val speakerBindings = speakers.map { speakerMapper.fromDomain(it) }
 
         sessionViewModel.fetchSpeakersBySession(eventId, modality, sessionBinding)
         verify(getSpeakersBySession).execute(any(), captor.capture(), any(), eq(null))
@@ -78,8 +84,8 @@ class SessionViewModelTest {
 
     @Test
     fun fetchSpeakersReturnsError() {
-        val eventId = 1
-        val modality = 2
+        val eventId = 1L
+        val modality = 2L
         val sessionBinding = PresentationDataFactory.makeSession()
 
         //TODO this test is weird...

@@ -1,7 +1,7 @@
 package br.com.nglauber.tdcapp.presentation.model
 
 data class EventBiding(
-        val id: Int,
+        val id: Long,
         val description: String,
         val key: String?,
         val active: Boolean?,

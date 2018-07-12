@@ -11,20 +11,20 @@ class ModalityListViewModel(
 
 ) : ViewModel(), LifecycleObserver {
 
-    var eventId: Int = 0
+    var eventId: Long = 0
     private val state: MutableLiveData<ViewState<Map<String, List<ModalityBinding>>>> = MutableLiveData()
 
     fun getState(): LiveData<ViewState<Map<String, List<ModalityBinding>>>> {
         return state
     }
 
-    fun fetchModalities(eventId: Int) {
+    fun fetchModalities(eventId: Long) {
         state.postValue(ViewState(ViewState.Status.LOADING))
         getModalitiesByEvent.execute(
                 eventId,
                 { modalityList ->
                     val modalitiesGroupedByDate = modalityList
-                            .map { mapper.parse(it) }
+                            .map { mapper.fromDomain(it) }
                             .sortedWith(compareBy({ it.date }, { it.positionOnEvent }))
                             .groupBy { it.date }
                     state.postValue(

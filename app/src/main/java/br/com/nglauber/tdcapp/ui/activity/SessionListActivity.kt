@@ -1,5 +1,6 @@
 package br.com.nglauber.tdcapp.ui.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,12 +12,12 @@ import br.com.nglauber.tdcapp.R
 import br.com.nglauber.tdcapp.presentation.SessionListViewModel
 import br.com.nglauber.tdcapp.presentation.ViewState
 import br.com.nglauber.tdcapp.presentation.model.SessionBinding
+import br.com.nglauber.tdcapp.ui.activity.ModalityListActivity.Companion.EXTRA_EVENT_ID
 import br.com.nglauber.tdcapp.ui.adapter.SessionAdapter
 import kotlinx.android.synthetic.main.activity_session_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SessionListActivity : AppCompatActivity() {
-
 
     private val viewModel: SessionListViewModel by viewModel()
 
@@ -24,9 +25,9 @@ class SessionListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session_list)
 
-        val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
-        val activityId = intent.getIntExtra(EXTRA_MODALITY_ID, -1)
-        if (eventId == -1 || activityId == -1) {
+        val eventId = intent.getLongExtra(EXTRA_EVENT_ID, -1L)
+        val activityId = intent.getLongExtra(EXTRA_MODALITY_ID, -1L)
+        if (eventId == -1L || activityId == -1L) {
             finish()
             return
         }
@@ -34,7 +35,18 @@ class SessionListActivity : AppCompatActivity() {
         observeSessions(eventId, activityId)
     }
 
-    private fun observeSessions(eventId: Int, modalityId: Int) {
+    //TODO find a better way to refresh the list after bookmark an item
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == SessionActivity.REQUEST_CODE_EDIT) {
+            viewModel.fetchSessionsByModality(
+                    viewModel.eventId,
+                    viewModel.modalityId
+            )
+        }
+    }
+
+    private fun observeSessions(eventId: Long, modalityId: Long) {
         viewModel.eventId = eventId
         viewModel.modalityId = modalityId
         viewModel.getState().observe(this, Observer { newState ->
@@ -81,7 +93,7 @@ class SessionListActivity : AppCompatActivity() {
         private const val EXTRA_EVENT_ID = "eventId"
         private const val EXTRA_MODALITY_ID = "activityId"
 
-        fun startActivity(context: Context, eventId: Int, modalityId: Int) {
+        fun startActivity(context: Context, eventId: Long, modalityId: Long) {
             context.startActivity(Intent(context, SessionListActivity::class.java).apply {
                 putExtra(EXTRA_EVENT_ID, eventId)
                 putExtra(EXTRA_MODALITY_ID, modalityId)

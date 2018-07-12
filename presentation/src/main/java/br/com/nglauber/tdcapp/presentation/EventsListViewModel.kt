@@ -20,7 +20,7 @@ class EventsListViewModel(
         state.postValue(ViewState(ViewState.Status.LOADING))
         getEvents.execute(null,
                 { eventList ->
-                    val list = eventList.map { mapper.parse(it) }
+                    val list = eventList.map { mapper.fromDomain(it) }
                     state.postValue(ViewState(ViewState.Status.SUCCESS, list))
                 },
                 { e ->

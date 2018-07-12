@@ -13,7 +13,10 @@ object SessionMapper: Mapper<TdcSession, Session> {
                 remote.title,
                 remote.description,
                 remote.type,
-                remote.time
+                remote.time,
+                0,
+                0,
+                false
         )
     }
 }

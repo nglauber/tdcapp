@@ -24,9 +24,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class TdcRemoteRepositoryTest {
+class TdcRemoteDataSourceTest {
     private val service = mock<TdcWebService>()
-    private val remote = TdcRemoteRepository(service)
+    private val remote = TdcRemoteDataSource(service)
 
     // Events
     @Test

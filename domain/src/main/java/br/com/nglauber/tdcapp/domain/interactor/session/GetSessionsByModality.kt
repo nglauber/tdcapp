@@ -3,11 +3,11 @@ package br.com.nglauber.tdcapp.domain.interactor.session
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Session
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import io.reactivex.Observable
 
 open class GetSessionsByModality (
-        private val repository: TdcRepository,
+        private val repository: Repository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Session>, GetSessionsByModality.Params>(postExecutionThread) {
 
@@ -19,5 +19,5 @@ open class GetSessionsByModality (
                 }
     }
 
-    class Params(val eventId: Int, val modalityId: Int)
+    class Params(val eventId: Long, val modalityId: Long)
 }

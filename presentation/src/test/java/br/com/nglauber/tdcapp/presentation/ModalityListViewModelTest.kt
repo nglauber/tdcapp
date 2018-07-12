@@ -36,7 +36,7 @@ class ModalityListViewModelTest {
 
     @Test
     fun fetchModalitiesReturnsSuccess() {
-        val eventId = 1
+        val eventId = 1L
         val modalities = DomainDataFactory.makeModalitiesList(2)
 
         modalityListViewModel.fetchModalities(eventId)
@@ -53,14 +53,14 @@ class ModalityListViewModelTest {
     fun fetchModalitiesReturnsData() {
         val mapper = ModalityMapper()
         val modalities = DomainDataFactory.makeModalitiesList(2)
-        val modalityBindings = modalities.map { mapper.parse(it) }
+        val modalityBindings = modalities.map { mapper.fromDomain(it) }
 
         modalityListViewModel.fetchModalities(1)
         verify(getModalitiesByEvent).execute(any(), captor.capture(), any(), eq(null))
         captor.firstValue.invoke(modalities)
 
         val bindingsMap = modalities
-                .map { mapper.parse(it) }
+                .map { mapper.fromDomain(it) }
                 .sortedWith(compareBy({ it.date }, { it.positionOnEvent }))
                 .groupBy { it.date }
 

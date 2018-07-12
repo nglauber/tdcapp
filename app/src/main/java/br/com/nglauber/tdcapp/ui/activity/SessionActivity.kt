@@ -1,5 +1,6 @@
 package br.com.nglauber.tdcapp.ui.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -32,17 +33,22 @@ class SessionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_session)
 
         val session = intent.getParcelableExtra<SessionBinding>(EXTRA_SESSION)
-        val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
-        val modalityId = intent.getIntExtra(EXTRA_MODALITY_ID, -1)
-        if (eventId == -1 || modalityId == -1 || session == null) {
+        val eventId = intent.getLongExtra(EXTRA_EVENT_ID, -1L)
+        val modalityId = intent.getLongExtra(EXTRA_MODALITY_ID, -1L)
+        if (eventId == -1L || modalityId == -1L || session == null) {
             finish()
             return
         }
         lifecycle.addObserver(viewModel)
         observeSessionSpeakers(eventId, modalityId, session)
+
+        imgBookmarked.setOnClickListener {
+            viewModel.toggleBookmarkSession()
+            setResult(Activity.RESULT_OK)
+        }
     }
 
-    private fun observeSessionSpeakers(eventId: Int, modalityId: Int, session: SessionBinding) {
+    private fun observeSessionSpeakers(eventId: Long, modalityId: Long, session: SessionBinding) {
         viewModel.eventId = eventId
         viewModel.modalityId = modalityId
         viewModel.sessionBinding = session
@@ -79,7 +85,13 @@ class SessionActivity : AppCompatActivity() {
         txtTitle.text = session.title
         txtTime.text = session.time
         txtDescription.text = fromHtml(session.description)
+        imgBookmarked.setImageResource(if (session.bookmarked) {
+            R.drawable.ic_star_black
+        } else {
+            R.drawable.ic_star_border
+        })
 
+        containerSpeakers.removeAllViews()
         speakerList?.forEach {
             val view = LayoutInflater.from(this)
                     .inflate(R.layout.item_speaker, containerSpeakers, false)
@@ -121,16 +133,17 @@ class SessionActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val REQUEST_CODE_EDIT = 1
         private const val EXTRA_SESSION = "session"
         private const val EXTRA_MODALITY_ID = "modalityId"
         private const val EXTRA_EVENT_ID = "eventId"
 
-        fun startActivity(context: Context, eventId: Int, modalityId: Int, session: SessionBinding) {
-            context.startActivity(Intent(context, SessionActivity::class.java).apply {
+        fun startActivity(context: Activity, eventId: Long, modalityId: Long, session: SessionBinding) {
+            context.startActivityForResult(Intent(context, SessionActivity::class.java).apply {
                 putExtra(EXTRA_EVENT_ID, eventId)
                 putExtra(EXTRA_MODALITY_ID, modalityId)
                 putExtra(EXTRA_SESSION, session)
-            })
+            }, REQUEST_CODE_EDIT)
         }
     }
 }

@@ -4,6 +4,19 @@ Sample app which access the TDC ([The Developer's Conference](http://www.thedeve
 In this sample I tried to follow the [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) principles
 and use some cool Android libraries.
 
+The Application is divided in modules as displayed below:
+
+![ModalitiesList](./images/app_layers.png)
+
+* __UI__ contains all UI related classes (Activities, Fragments, Adapters, etc.). The dependency injection is also declared in this layer.
+* __Presentation__ stores all view model classes, once this project is trying to follow the [MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel).
+* __Domain__ in this module are declared the application's use cases and the basic data classes used as [DTO](https://en.wikipedia.org/wiki/Data_transfer_object).
+This layer also declares the basic operations that must be provided by the application's repository.
+* __Data__ defines a basic repository flow to access two data sources: a remote (to retrieve data from the sever); and local (for now, just to save bookmarked sessions).
+* __Data Remote__ contains a implementation of a remote data source.
+* __Data Local__ contains a implementation of a local data source.
+* __Data Memory__ could be used as remote repository for development purposes (or if you don't have an API key, see the section ).
+
 ## Screenshots
 ### Events List
 This screen lists all events organized by Global Code organized by date and showing the most recent on top.
@@ -28,7 +41,7 @@ Session details are shown in this screen, including the speaker and his mini-bio
 ## Libraries
 This project is written in Kotlin and it's using the following libraries:
 * AppCompat
-* Android Architecture Components (View Model, Lifecycle and LiveData)
+* Android Architecture Components (View Model, Lifecycle, LiveData and Room)
 * ConstraintLayout
 * Material Design Components Library
 * [Glide](https://github.com/bumptech/glide)
@@ -38,6 +51,7 @@ This project is written in Kotlin and it's using the following libraries:
 * [Mockito](http://site.mockito.org/)
 * [OkHttp](http://square.github.io/okhttp/)
 * [Retrofit](http://square.github.io/retrofit/)
+* [Robolectric](https://github.com/robolectric/robolectric)
 * [RXJava](https://github.com/ReactiveX/RxJava)
 
 ## Get started
@@ -58,8 +72,8 @@ package br.com.nglauber.tdcapp.di
 val persistenceModule = module {
     ...
     single {
-        // Instead of this --> TdcRemoteRepository(tdcWebService = get()) as TdcRepository
-        InMemoryRepository() as TdcRepository // Use this
+        // Instead of this --> TdcRemoteDataSource(tdcWebService = get()) as RemoteDataSource
+        InMemoryRepository() as RemoteDataSource // Use this one
     }
 }
 ```

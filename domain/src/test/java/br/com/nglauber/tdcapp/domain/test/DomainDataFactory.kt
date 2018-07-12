@@ -4,7 +4,7 @@ import br.com.nglauber.tdcapp.domain.model.*
 
 object DomainDataFactory {
     fun makeEvent() = Event(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -24,7 +24,7 @@ object DomainDataFactory {
     }
 
     fun makeModality() = Modality(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -48,14 +48,17 @@ object DomainDataFactory {
     }
 
     fun makeSession() = Session(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomInt(),
             DataFactory.randomInt(),
             DataFactory.randomBoolean(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomInt(),
-            DataFactory.randomString()
+            DataFactory.randomString(),
+            DataFactory.randomLong(),
+            DataFactory.randomLong(),
+            DataFactory.randomBoolean()
     )
 
     fun makeSessionsList(count: Int): List<Session> {
@@ -90,7 +93,7 @@ object DomainDataFactory {
     )
 
     fun makeSpeaker() = Speaker(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             makeMember(),
             makeMiniBio()
     )

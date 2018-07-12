@@ -3,7 +3,7 @@ package br.com.nglauber.tdcapp.data.remote.model
 import com.google.gson.annotations.SerializedName
 
 data class TdcEvent(
-        val id: Int,
+        val id: Long,
         @SerializedName("descricao")
         val description: String,
         @SerializedName("chave")

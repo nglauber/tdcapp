@@ -5,7 +5,7 @@ import br.com.nglauber.tdcapp.presentation.test.DataFactory
 
 object PresentationDataFactory {
     fun makeEvent() = EventBiding(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -25,7 +25,7 @@ object PresentationDataFactory {
     }
 
     fun makeModality() = ModalityBinding(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomBoolean(),
@@ -49,14 +49,17 @@ object PresentationDataFactory {
     }
 
     fun makeSession() = SessionBinding(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             DataFactory.randomInt(),
             DataFactory.randomInt(),
             DataFactory.randomBoolean(),
             DataFactory.randomString(),
             DataFactory.randomString(),
             DataFactory.randomInt(),
-            DataFactory.randomString()
+            DataFactory.randomString(),
+            DataFactory.randomLong(),
+            DataFactory.randomLong(),
+            DataFactory.randomBoolean()
     )
 
     fun makeSessionsList(count: Int): List<SessionBinding> {
@@ -91,7 +94,7 @@ object PresentationDataFactory {
     )
 
     fun makeSpeaker() = SpeakerBinding(
-            DataFactory.randomInt(),
+            DataFactory.randomLong(),
             makeMember(),
             makeMiniBio()
     )
