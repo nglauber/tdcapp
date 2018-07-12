@@ -7,7 +7,7 @@ import br.com.nglauber.tdcapp.ui.fragment.ModalityListFragment
 
 class ModalitiesPagerAdapter(
         fm: FragmentManager,
-        private val eventId: Int,
+        private val eventId: Long,
         private val modalitiesDates: List<String>
 ) : FragmentPagerAdapter(fm) {
 

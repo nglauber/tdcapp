@@ -18,6 +18,13 @@ class SessionAdapter(context: Context, sessions: List<SessionBinding>) :
         val session = getItem(position)
         view.txtTime.text = session.time
         view.txtTitle.text = session.title
+        view.imgBookmarked.setImageResource(
+                if (session.bookmarked) {
+                    R.drawable.ic_star_black
+                } else {
+                    R.drawable.ic_star_border
+                }
+        )
         return view
     }
 }

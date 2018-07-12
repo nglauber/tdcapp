@@ -36,8 +36,8 @@ class SessionListViewModelTest {
 
     @Test
     fun fetchSessionsReturnsSuccess() {
-        val eventId = 1
-        val modalityId = 2
+        val eventId = 1L
+        val modalityId = 2L
         val sessions = DomainDataFactory.makeSessionsList(2)
 
         sessionListViewModel.fetchSessionsByModality(eventId, modalityId)
@@ -57,7 +57,7 @@ class SessionListViewModelTest {
     fun fetchSessionsReturnsData() {
         val mapper = SessionMapper()
         val sessions = DomainDataFactory.makeSessionsList(2)
-        val sessionBindings = sessions.map { mapper.parse(it) }
+        val sessionBindings = sessions.map { mapper.fromDomain(it) }
 
         sessionListViewModel.fetchSessionsByModality(1, 2)
         verify(getSessionsByModality).execute(any(), captor.capture(), any(), eq(null))

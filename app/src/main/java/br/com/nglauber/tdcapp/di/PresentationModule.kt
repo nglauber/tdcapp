@@ -42,7 +42,10 @@ val presentationModule = module {
     viewModel {
         SessionViewModel(
                 getSpeakersBySession = get(),
-                speakerMapper = get()
+                bookmarkSession = get(),
+                unbookmarkSession = get(),
+                speakerMapper = get(),
+                sessionMapper = get()
         )
     }
 }

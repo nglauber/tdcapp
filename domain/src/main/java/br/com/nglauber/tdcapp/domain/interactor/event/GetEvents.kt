@@ -3,11 +3,11 @@ package br.com.nglauber.tdcapp.domain.interactor.event
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Event
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import io.reactivex.Observable
 
 open class GetEvents(
-        private val repository: TdcRepository,
+        private val repository: Repository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Event>, Unit>(postExecutionThread) {
 

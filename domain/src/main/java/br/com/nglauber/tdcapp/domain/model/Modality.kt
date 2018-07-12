@@ -1,7 +1,7 @@
 package br.com.nglauber.tdcapp.domain.model
 
 data class Modality(
-        val id: Int,
+        val id: Long,
         val description: String,
         val urlSite: String?,
         val active: Boolean?,

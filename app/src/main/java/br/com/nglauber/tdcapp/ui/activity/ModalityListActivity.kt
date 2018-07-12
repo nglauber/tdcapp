@@ -26,8 +26,8 @@ class ModalityListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val eventId = intent.getIntExtra(EXTRA_EVENT_ID, -1)
-        if (eventId == -1) {
+        val eventId = intent.getLongExtra(EXTRA_EVENT_ID, -1L)
+        if (eventId == -1L) {
             finish()
             return
         }
@@ -35,7 +35,7 @@ class ModalityListActivity : AppCompatActivity() {
         observerModalities(eventId)
     }
 
-    private fun observerModalities(eventId: Int) {
+    private fun observerModalities(eventId: Long) {
         viewModel.eventId = eventId
         viewModel.getState().observe(this, Observer { newState ->
             newState?.let {
@@ -44,7 +44,7 @@ class ModalityListActivity : AppCompatActivity() {
         })
     }
 
-    private fun handleState(eventId: Int, state: ViewState<Map<String, List<ModalityBinding>>>?) {
+    private fun handleState(eventId: Long, state: ViewState<Map<String, List<ModalityBinding>>>?) {
         when (state?.status) {
             ViewState.Status.LOADING -> {
                 progressBar.visibility = View.VISIBLE
@@ -62,7 +62,7 @@ class ModalityListActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(eventId: Int, modalityDates: List<String>) {
+    private fun handleSuccess(eventId: Long, modalityDates: List<String>) {
         progressBar.visibility = View.GONE
         viewPager.adapter = ModalitiesPagerAdapter(
                 supportFragmentManager, eventId, modalityDates
@@ -79,7 +79,7 @@ class ModalityListActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_EVENT_ID = "eventId"
 
-        fun startActivity(context: Context, eventId: Int) {
+        fun startActivity(context: Context, eventId: Long) {
             context.startActivity(Intent(context, ModalityListActivity::class.java).apply {
                 putExtra(EXTRA_EVENT_ID, eventId)
             })

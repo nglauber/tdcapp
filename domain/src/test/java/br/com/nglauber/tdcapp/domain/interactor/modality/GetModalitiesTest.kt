@@ -2,7 +2,7 @@ package br.com.nglauber.tdcapp.domain.interactor.modality
 
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.model.Modality
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import br.com.nglauber.tdcapp.domain.test.DomainDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
 class GetModalitiesTest {
     private lateinit var getModalitiesByEvent: GetModalitiesByEvent
     @Mock
-    lateinit var repository: TdcRepository
+    lateinit var repository: Repository
     @Mock
     lateinit var postExecutionThread: PostExecutionThread
 

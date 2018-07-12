@@ -9,8 +9,8 @@ class SessionListViewModel (
         private val getSessions: GetSessionsByModality,
         private val mapper: SessionMapper
 ) : ViewModel(), LifecycleObserver {
-    var eventId: Int = 0
-    var modalityId: Int = 0
+    var eventId: Long = 0
+    var modalityId: Long = 0
 
     private val state: MutableLiveData<ViewState<List<SessionBinding>>> = MutableLiveData()
 
@@ -18,7 +18,7 @@ class SessionListViewModel (
         return state
     }
 
-    fun fetchSessionsByModality(eventId: Int, modalityId: Int) {
+    fun fetchSessionsByModality(eventId: Long, modalityId: Long) {
         this.eventId = eventId
         this.modalityId = modalityId
 
@@ -27,7 +27,7 @@ class SessionListViewModel (
         getSessions.execute(
                 GetSessionsByModality.Params(eventId, modalityId),
                 { sessionList ->
-                    val list = sessionList.map { mapper.parse(it) }
+                    val list = sessionList.map { mapper.fromDomain(it) }
                     state.postValue(ViewState(ViewState.Status.SUCCESS, list))
                 },
                 { e ->

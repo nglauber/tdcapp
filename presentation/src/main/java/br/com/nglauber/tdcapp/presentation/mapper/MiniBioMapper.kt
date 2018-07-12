@@ -4,7 +4,21 @@ import br.com.nglauber.tdcapp.domain.model.MiniBio
 import br.com.nglauber.tdcapp.presentation.model.MiniBioBinding
 
 class MiniBioMapper : Mapper<MiniBio, MiniBioBinding> {
-    override fun parse(domain: MiniBio): MiniBioBinding {
+    override fun toDomain(presentation: MiniBioBinding): MiniBio {
+        return MiniBio(
+                presentation.id,
+                presentation.key,
+                presentation.text,
+                presentation.urlPhoto,
+                presentation.urlTwitter,
+                presentation.urlBlog,
+                presentation.urlLinkedin,
+                presentation.urlSite,
+                presentation.urlGlobalcoders
+        )
+    }
+
+    override fun fromDomain(domain: MiniBio): MiniBioBinding {
         return MiniBioBinding(
                 domain.id,
                 domain.key,

@@ -3,11 +3,11 @@ package br.com.nglauber.tdcapp.domain.interactor.session
 import br.com.nglauber.tdcapp.domain.executor.PostExecutionThread
 import br.com.nglauber.tdcapp.domain.interactor.ObservableUseCase
 import br.com.nglauber.tdcapp.domain.model.Speaker
-import br.com.nglauber.tdcapp.domain.repository.TdcRepository
+import br.com.nglauber.tdcapp.domain.repository.Repository
 import io.reactivex.Observable
 
 open class GetSpeakersBySession(
-        private val repository: TdcRepository,
+        private val repository: Repository,
         postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Speaker>, GetSpeakersBySession.Params>(postExecutionThread) {
 
@@ -16,5 +16,5 @@ open class GetSpeakersBySession(
         return repository.getSpeakersBySession(params.eventId, params.modalityId, params.sessionId)
     }
 
-    class Params(val eventId: Int, val modalityId: Int, val sessionId: Int)
+    class Params(val eventId: Long, val modalityId: Long, val sessionId: Long)
 }

@@ -3,7 +3,7 @@ package br.com.nglauber.tdcapp.data.remote.model
 import com.google.gson.annotations.SerializedName
 
 data class TdcSession(
-        val id: Int,
+        val id: Long,
         val slot: Int,
         @SerializedName("ordem")
         val order: Int,

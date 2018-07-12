@@ -17,12 +17,12 @@ class ModalityListFragment : Fragment() {
 
     private val viewModel: ModalityListViewModel by sharedViewModel()
 
-    private var eventId: Int = 0
+    private var eventId: Long = 0
     private var date: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        eventId = arguments?.getInt(EXTRA_EVENT_ID) ?: -1
+        eventId = arguments?.getLong(EXTRA_EVENT_ID) ?: -1L
         date = arguments?.getString(EXTRA_DATE) ?: ""
     }
 
@@ -39,9 +39,9 @@ class ModalityListFragment : Fragment() {
             }
         }
         listView.setOnItemClickListener { adapterView, _, i, _ ->
-            val tdcActivity = adapterView.adapter.getItem(i) as ModalityBinding
+            val tdcModality = adapterView.adapter.getItem(i) as ModalityBinding
             context?.let {
-                SessionListActivity.startActivity(it, eventId, tdcActivity.id)
+                SessionListActivity.startActivity(it, eventId, tdcModality.id)
             }
         }
     }
@@ -50,10 +50,10 @@ class ModalityListFragment : Fragment() {
         private const val EXTRA_EVENT_ID = "event_id"
         private const val EXTRA_DATE = "date"
 
-        fun newInstance(eventId: Int, date: String): ModalityListFragment {
+        fun newInstance(eventId: Long, date: String): ModalityListFragment {
             return ModalityListFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(EXTRA_EVENT_ID, eventId)
+                    putLong(EXTRA_EVENT_ID, eventId)
                     putString(EXTRA_DATE, date)
                 }
             }

@@ -52,7 +52,7 @@ class EventsListViewModelTest {
     fun fetchEventsReturnsData() {
         val mapper = EventMapper()
         val events = DomainDataFactory.makeEventsList(2)
-        val eventBindings = events.map { mapper.parse(it) }
+        val eventBindings = events.map { mapper.fromDomain(it) }
 
         eventListViewModel.fetchEvents()
         verify(getEvents).execute(eq(null), captor.capture(), any(), eq(null))
