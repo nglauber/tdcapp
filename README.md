@@ -57,7 +57,7 @@ This project is written in Kotlin and it's using the following libraries:
 ## Get started
 This application were created using Android 3.3 Canary 2.
 To run this application, you must have a *Client ID* and *Secret* to access the TDC REST API.
-To get those information, access the [Global Code](https://www.globalcode.com.br/) web site, create an account and request your credentials.
+To get those information, access the [Global Code](https://www.globalcode.com.br/api) web site, create an account and request your credentials.
 After that, create the `apikey.properties` file in the root's project directory and put your credentials as below:
 
 ```
